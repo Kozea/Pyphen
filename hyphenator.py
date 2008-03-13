@@ -97,6 +97,8 @@ class Hyph_dict(object):
             else:
                 factory = int
             tag, value = zip(*[(s, factory(i or "0")) for i, s in parse(pat)])
+            # if only zeros, skip this pattern
+            if max(value) == 0: continue
             # chop zeros from beginning and end, and store start offset.
             start, end = 0, len(value)
             while not value[start]: start += 1

@@ -60,7 +60,7 @@ setup(
     py_modules = ['hyphenator'],
     author = 'Wilbert Berendsen',
     author_email = 'wbsoft@xs4all.nl',
-    url = 'http://hyphenator.googlecode.com/',
+    url = 'http://python-hyphenator.googlecode.com/',
     description = 'Pure Python module to hyphenate text using existing dictionaries',
     long_description = longdesc,
     classifiers = classifiers,
