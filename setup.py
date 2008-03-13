@@ -56,7 +56,7 @@ classifiers = [
 
 setup(
     name = 'hyphenator',
-    version = '0.5',
+    version = '0.5.1',
     py_modules = ['hyphenator'],
     author = 'Wilbert Berendsen',
     author_email = 'wbsoft@xs4all.nl',
