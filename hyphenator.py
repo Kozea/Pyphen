@@ -11,7 +11,7 @@ this module, in a slightly prepared form, like in Ruby's Text::Hyphen.
 Wilbert Berendsen, March 2008
 info@wilbertberendsen.nl
 
-License: LGPL.
+License: LGPL. More info: http://python-hyphenator.googlecode.com/
 
 """
 
@@ -65,7 +65,7 @@ class dint(int):
     """
     def __new__(cls, value, data=None, ref=None):
         obj = int.__new__(cls, value)
-        if ref and type(ref) == dint:
+        if ref and type(ref) is dint:
             obj.data = ref.data
         else:
             obj.data = data
