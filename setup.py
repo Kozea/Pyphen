@@ -51,6 +51,13 @@ classifiers = [
     'License :: OSI Approved :: '
     'GNU Library or Lesser General Public License (LGPL)',
     'Programming Language :: Python',
+    'Programming Language :: Python :: 2',
+    'Programming Language :: Python :: 2.6',
+    'Programming Language :: Python :: 2.7',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.1',
+    'Programming Language :: Python :: 3.2',
+    'Programming Language :: Python :: 3.3',
     'Topic :: Text Processing',
     'Topic :: Text Processing :: Linguistic',
 ]
