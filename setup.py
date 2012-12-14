@@ -46,22 +46,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 """
 
 classifiers = [
-'Development Status :: 3 - Alpha',
-'Intended Audience :: Developers',
-'License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)',
-'Programming Language :: Python',
-'Topic :: Text Processing',
-'Topic :: Text Processing :: Linguistic',
+    'Development Status :: 3 - Alpha',
+    'Intended Audience :: Developers',
+    'License :: OSI Approved :: '
+    'GNU Library or Lesser General Public License (LGPL)',
+    'Programming Language :: Python',
+    'Topic :: Text Processing',
+    'Topic :: Text Processing :: Linguistic',
 ]
 
 setup(
-    name = 'hyphenator',
-    version = '0.5.1',
-    py_modules = ['hyphenator'],
-    author = 'Wilbert Berendsen',
-    author_email = 'wbsoft@xs4all.nl',
-    url = 'http://python-hyphenator.googlecode.com/',
-    description = 'Pure Python module to hyphenate text using existing dictionaries',
-    long_description = longdesc,
-    classifiers = classifiers,
+    name='hyphenator',
+    version='0.5.1',
+    py_modules=['hyphenator'],
+    author='Wilbert Berendsen',
+    author_email='wbsoft@xs4all.nl',
+    url='http://python-hyphenator.googlecode.com/',
+    description=(
+        'Pure Python module to hyphenate text '
+        'using existing dictionaries'),
+    long_description=longdesc,
+    classifiers=classifiers,
 )
