@@ -5,9 +5,6 @@ This is a Pure Python module to hyphenate text.
 It is inspired by Ruby's Text::Hyphen, but currently reads standard *.dic
 files, that must be installed separately.
 
-In the future it's maybe nice if dictionaries could be distributed together
-with this module, in a slightly prepared form, like in Ruby's Text::Hyphen.
-
 Wilbert Berendsen, March 2008
 info@wilbertberendsen.nl
 
@@ -18,9 +15,9 @@ License: LGPL. More info: http://python-hyphenator.googlecode.com/
 import sys
 import re
 
-__all__ = ("Hyphenator")
+__all__ = ('Hyphenator')
 
-# cache of per-file Hyph_dict objects
+# cache of per-file HyphDict objects
 hdcache = {}
 
 # precompile some stuff
@@ -31,180 +28,202 @@ parse = re.compile(r'(\d?)(\D?)').findall
 encoding = sys.stdin.encoding
 
 
-def hexrepl(matchObj):
-    return unichr(int(matchObj.group(1), 16))
+class parse_alternative(object):
+    """Parser of nonstandard hyphen pattern alternative.
 
+    The instance returns a special int with data about the current position in
+    the pattern when called with an odd value.
 
-class parse_alt(object):
     """
-    Parse nonstandard hyphen pattern alternative.
-    The instance returns a special int with data about the current position
-    in the pattern when called with an odd value.
-    """
-    def __init__(self, pat, alt):
-        alt = alt.split(',')
-        self.change = alt[0]
-        if len(alt) > 2:
-            self.index = int(alt[1])
-            self.cut = int(alt[2]) + 1
+    def __init__(self, pattern, alternative):
+        alternative = alternative.split(',')
+        self.change = alternative[0]
+        if len(alternative) > 2:
+            self.index = int(alternative[1])
+            self.cut = int(alternative[2]) + 1
         else:
             self.index = 1
-            self.cut = len(re.sub(r'[\d\.]', '', pat)) + 1
-        if pat.startswith('.'):
+            self.cut = len(re.sub(r'[\d\.]', '', pattern)) + 1
+        if pattern.startswith('.'):
             self.index += 1
 
-    def __call__(self, val):
+    def __call__(self, value):
         self.index -= 1
-        val = int(val)
-        if val & 1:
-            return dint(val, (self.change, self.index, self.cut))
+        value = int(value)
+        if value & 1:
+            return dint(value, (self.change, self.index, self.cut))
         else:
-            return val
+            return value
 
 
 class dint(int):
-    """
-    Just an int some other data can be stuck to in a data attribute.
-    Call with ref=other to use the data from the other dint.
-    """
-    def __new__(cls, value, data=None, ref=None):
+    """``int`` with some other data can be stuck to in a ``data`` attribute."""
+    def __new__(cls, value, data=None, reference=None):
+        """Create a new ``dint``.
+
+        Call with ``reference=dint_object`` to use the data from another
+        ``dint``.
+
+        """
         obj = int.__new__(cls, value)
-        if ref and type(ref) is dint:
-            obj.data = ref.data
+        if reference and type(reference) is dint:
+            obj.data = reference.data
         else:
             obj.data = data
         return obj
 
 
-class Hyph_dict(object):
-    """
-    Reads a hyph_*.dic file and stores the hyphenation patterns.
-    Parameters:
-    -filename : filename of hyph_*.dic to read
-    """
-    def __init__(self, filename):
-        self.patterns = {}
-        f = open(filename, 'rb')
-        charset = f.readline().strip().decode('ascii')
-        if charset.startswith('charset '):
-            charset = charset[8:].strip()
+class HyphDict(object):
+    """Hyphenation patterns."""
 
-        for pat in f:
-            pat = pat.decode(charset).strip()
-            if not pat or pat[0] == '%':
-                continue
-            # replace ^^hh with the real character
-            pat = parse_hex(hexrepl, pat)
-            # read nonstandard hyphen alternatives
-            if '/' in pat:
-                pat, alt = pat.split('/', 1)
-                factory = parse_alt(pat, alt)
-            else:
-                factory = int
-            tag, value = zip(*[(s, factory(i or "0")) for i, s in parse(pat)])
-            # if only zeros, skip this pattern
-            if max(value) == 0:
-                continue
-            # chop zeros from beginning and end, and store start offset.
-            start, end = 0, len(value)
-            while not value[start]:
-                start += 1
-            while not value[end - 1]:
-                end -= 1
-            self.patterns[''.join(tag)] = start, value[start:end]
-        f.close()
+    def __init__(self, filename):
+        """Read a ``hyph_*.dic`` and parse its patterns.
+
+        :param filename: filename of hyph_*.dic to read
+
+        """
+        self.patterns = {}
+
+        with open(filename, 'rb') as stream:
+            charset = stream.readline().strip().decode('ascii')
+            if charset.startswith('charset '):
+                charset = charset[8:].strip()
+
+            for pattern in stream:
+                pattern = pattern.decode(charset).strip()
+                if not pattern or pattern[0] == '%':
+                    continue
+
+                # replace ^^hh with the real character
+                pattern = parse_hex(
+                    lambda match: unichr(int(match.group(1), 16)), pattern)
+
+                # read nonstandard hyphen alternatives
+                if '/' in pattern:
+                    pattern, alternative = pattern.split('/', 1)
+                    factory = parse_alternative(pattern, alternative)
+                else:
+                    factory = int
+
+                tags, values = zip(*[
+                    (string, factory(i or '0'))
+                    for i, string in parse(pattern)])
+
+                # if only zeros, skip this pattern
+                if max(values) == 0:
+                    continue
+
+                # chop zeros from beginning and end, and store start offset.
+                start, end = 0, len(values)
+                while not values[start]:
+                    start += 1
+                while not values[end - 1]:
+                    end -= 1
+
+                self.patterns[''.join(tags)] = start, values[start:end]
+
         self.cache = {}
         self.maxlen = max(map(len, self.patterns.keys()))
 
     def positions(self, word):
-        """
-        Returns a list of positions where the word can be hyphenated.
-        E.g. for the dutch word 'lettergrepen' this method returns
-        the list [3, 6, 9].
+        """Get a list of positions where the word can be hyphenated.
 
-        Each position is a 'data int' (dint) with a data attribute.
-        If the data attribute is not None, it contains a tuple with
-        information about nonstandard hyphenation at that point:
-        (change, index, cut)
+        E.g. for the dutch word 'lettergrepen' this method returns ``[3, 6,
+        9]``.
 
-        change: is a string like 'ff=f', that describes how hyphenation
-            should take place.
-        index: where to substitute the change, counting from the current
-            point
-        cut: how many characters to remove while substituting the nonstandard
-            hyphenation
+        Each position is a ``dint`` with a data attribute.
+
+        If the data attribute is not ``None``, it contains a tuple with
+        information about nonstandard hyphenation at that point: ``(change,
+        index, cut)``.
+
+        change
+          a string like ``'ff=f'``, that describes how hyphenation should
+          take place.
+
+        index
+          where to substitute the change, counting from the current point
+
+        cut
+          how many characters to remove while substituting the nonstandard
+          hyphenation
+
         """
         word = word.lower()
         points = self.cache.get(word)
         if points is None:
-            prepWord = '.%s.' % word
-            res = [0] * (len(prepWord) + 1)
-            for i in range(len(prepWord) - 1):
-                for j in range(i + 1, min(i + self.maxlen, len(prepWord)) + 1):
-                    p = self.patterns.get(prepWord[i:j])
-                    if p:
-                        offset, value = p
-                        s = slice(i + offset, i + offset + len(value))
-                        res[s] = map(max, value, res[s])
+            pointed_word = '.%s.' % word
+            references = [0] * (len(pointed_word) + 1)
+            for i in range(len(pointed_word) - 1):
+                for j in range(
+                        i + 1, min(i + self.maxlen, len(pointed_word)) + 1):
+                    pattern = self.patterns.get(pointed_word[i:j])
+                    if pattern:
+                        offset, value = pattern
+                        slice_ = slice(i + offset, i + offset + len(value))
+                        references[slice_] = map(
+                            max, value, references[slice_])
 
-            points = [dint(i - 1, ref=r) for i, r in enumerate(res) if r % 2]
+            points = [
+                dint(i - 1, reference=reference)
+                for i, reference in enumerate(references) if reference % 2]
             self.cache[word] = points
         return points
 
 
 class Hyphenator(object):
-    """
-    Reads a hyph_*.dic file and stores the hyphenation patterns.
-    Provides methods to hyphenate strings in various ways.
-    Parameters:
-    -filename : filename of hyph_*.dic to read
-    -left: make the first syllabe not shorter than this
-    -right: make the last syllabe not shorter than this
-    -cache: if true (default), use a cached copy of the dic file, if possible
+    """Hyphenation class, with methods to hyphenate strings in various ways."""
 
-    left and right may also later be changed:
-      h = Hyphenator(file)
-      h.left = 1
-    """
     def __init__(self, filename, left=2, right=2, cache=True):
+        """Create an hyphenator
+
+        :param filename: filename of hyph_*.dic to read
+        :param left: minimum number of characters of the first syllabe
+        :param right: minimum number of characters of the last syllabe
+        :param cache: if ``True``, use cached copy of the hyphenation patterns
+
+        """
         self.left = left
         self.right = right
         if not cache or filename not in hdcache:
-            hdcache[filename] = Hyph_dict(filename)
+            hdcache[filename] = HyphDict(filename)
         self.hd = hdcache[filename]
 
     def positions(self, word):
-        """
-        Returns a list of positions where the word can be hyphenated.
-        See also Hyph_dict.positions. The points that are too far to
-        the left or right are removed.
+        """Get a list of positions where the word can be hyphenated.
+
+        See also ``HyphDict.positions``. The points that are too far to the
+        left or right are removed.
+
         """
         right = len(word) - self.right
         return [i for i in self.hd.positions(word) if self.left <= i <= right]
 
     def iterate(self, word):
-        """
-        Iterate over all hyphenation possibilities, the longest first.
-        """
+        """Iterate over all hyphenation possibilities, the longest first."""
         if isinstance(word, bytes):
             word = word.decode(encoding)
-        for p in reversed(self.positions(word)):
-            if p.data:
+
+        for position in reversed(self.positions(word)):
+            if position.data:
                 # get the nonstandard hyphenation data
-                change, index, cut = p.data
+                change, index, cut = position.data
+                index += position
                 if word.isupper():
                     change = change.upper()
                 c1, c2 = change.split('=')
-                yield word[:p + index] + c1, c2 + word[p + index + cut:]
+                yield word[:index] + c1, c2 + word[index + cut:]
             else:
-                yield word[:p], word[p:]
+                yield word[:position], word[position:]
 
     def wrap(self, word, width, hyphen='-'):
-        """
-        Return the longest possible first part and the last part of the
-        hyphenated word. The first part has the hyphen already attached.
-        Returns None, if there is no hyphenation point before width, or
+        """Get the longest possible first part and the last part of a word.
+
+        The first part has the hyphen already attached.
+
+        Returns ``None`` if there is no hyphenation point before width, or
         if the word could not be hyphenated.
+
         """
         width -= len(hyphen)
         for w1, w2 in self.iterate(word):
@@ -212,37 +231,42 @@ class Hyphenator(object):
                 return w1 + hyphen, w2
 
     def inserted(self, word, hyphen='-'):
-        """
-        Returns the word as a string with all the possible hyphens inserted.
-        E.g. for the dutch word 'lettergrepen' this method returns
-        the string 'let-ter-gre-pen'. The hyphen string to use can be
-        given as the second parameter, that defaults to '-'.
+        """Get the word as a string with all the possible hyphens inserted.
+
+        E.g. for the dutch word ``'lettergrepen'``, this method returns the
+        unicode string ``'let-ter-gre-pen'``. The hyphen string to use can be
+        given as the second parameter, that defaults to ``'-'``.
+
         """
         if isinstance(word, bytes):
             word = word.decode(encoding)
-        l = list(word)
-        for p in reversed(self.positions(word)):
-            if p.data:
+
+        word_list = list(word)
+        for position in reversed(self.positions(word)):
+            if position.data:
                 # get the nonstandard hyphenation data
-                change, index, cut = p.data
+                change, index, cut = position.data
+                index += position
                 if word.isupper():
                     change = change.upper()
-                l[p + index:p + index + cut] = change.replace('=', hyphen)
+                word_list[index:index + cut] = change.replace('=', hyphen)
             else:
-                l.insert(p, hyphen)
-        return ''.join(l)
+                word_list.insert(position, hyphen)
+
+        return ''.join(word_list)
 
     __call__ = iterate
 
 
-if __name__ == "__main__":
-
+if __name__ == '__main__':
     dict_file = sys.argv[1]
     word = sys.argv[2]
+
     if isinstance(word, bytes):
-        word = sys.argv[2].decode(encoding)
+        word = word.decode(encoding)
+        dict_file = dict_file.decode(encoding)
 
-    h = Hyphenator(dict_file, left=1, right=1)
+    hyphenator = Hyphenator(dict_file, left=1, right=1)
 
-    for i in h(word):
-        print(i)
+    for parts in hyphenator(word):
+        print(parts)
