@@ -1,8 +1,14 @@
 Python text hyphenator
 ======================
 
-hyphenator is a pure Python module to hyphenate text using existing hyphenation
-dictionaries, like those used by OpenOffice.org.
+hyphenator is a pure Python module to hyphenate text using existing Hunspell
+hyphenation dictionaries.
+
+Many dictionaries are included in hyphenator, they come from the LibreOffice
+git repository and are distributed under various licenses, including the LGPL
+version 2.1 also used for hyphenator.
+
+See: http://cgit.freedesktop.org/libreoffice/dictionaries/tree/
 
 Usage:
 
