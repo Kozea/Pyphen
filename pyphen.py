@@ -1,21 +1,37 @@
+# This file is part of Pyphen
+#
+# Copyright 2008 - Wilbert Berendsen <info@wilbertberendsen.nl>
+# Copyright 2012 - Guillaume Ayoub <guillaume.ayoub@kozea.fr>
+#
+# This library is free software: you can redistribute it and/or modify it under
+# the terms of the GNU Lesser General Public License as published by the Free
+# Software Foundation, either version 2.1 of the License, or (at your option)
+# any later version.
+#
+# This library is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with Pyphen.  If not, see <http://www.gnu.org/licenses/>.
+
 """
 
-This is a Pure Python module to hyphenate text.
+Pyphen
+======
 
-It is inspired by Ruby's Text::Hyphen, but currently reads standard *.dic
-files, that must be installed separately.
-
-Wilbert Berendsen, March 2008
-info@wilbertberendsen.nl
-
-License: LGPL. More info: http://python-hyphenator.googlecode.com/
+Pure Python module to hyphenate text, inspired by Ruby's Text::Hyphen.
 
 """
 
-import sys
+from __future__ import unicode_literals
+
+import os
 import re
 
-__all__ = ('Hyphenator')
+
+__all__ = ('Pyphen', 'LANGUAGES')
 
 # cache of per-file HyphDict objects
 hdcache = {}
@@ -24,11 +40,15 @@ hdcache = {}
 parse_hex = re.compile(r'\^{2}([0-9a-f]{2})').sub
 parse = re.compile(r'(\d?)(\D?)').findall
 
-# default encoding
-encoding = sys.stdin.encoding
+# included dictionaries
+dictionaries_root = os.path.join(os.path.dirname(__file__), 'dictionaries')
+LANGUAGES = dict(
+    (filename[5:-4], os.path.join(dictionaries_root, filename))
+    for filename in os.listdir(dictionaries_root)
+    if filename.endswith('.dic'))
 
 
-class parse_alternative(object):
+class AlternativeParser(object):
     """Parser of nonstandard hyphen pattern alternative.
 
     The instance returns a special int with data about the current position in
@@ -50,26 +70,23 @@ class parse_alternative(object):
     def __call__(self, value):
         self.index -= 1
         value = int(value)
-        if value & 1:
-            return dint(value, (self.change, self.index, self.cut))
-        else:
+        if value % 2:
             return value
+        else:
+            return DataInt(value, (self.change, self.index, self.cut))
 
 
-class dint(int):
+class DataInt(int):
     """``int`` with some other data can be stuck to in a ``data`` attribute."""
     def __new__(cls, value, data=None, reference=None):
-        """Create a new ``dint``.
+        """Create a new ``DataInt``.
 
-        Call with ``reference=dint_object`` to use the data from another
-        ``dint``.
+        Call with ``reference=dataint_object`` to use the data from another
+        ``DataInt``.
 
         """
         obj = int.__new__(cls, value)
-        if reference and type(reference) is dint:
-            obj.data = reference.data
-        else:
-            obj.data = data
+        obj.data = reference.data if isinstance(reference, DataInt) else None
         return obj
 
 
@@ -101,7 +118,7 @@ class HyphDict(object):
                 # read nonstandard hyphen alternatives
                 if '/' in pattern:
                     pattern, alternative = pattern.split('/', 1)
-                    factory = parse_alternative(pattern, alternative)
+                    factory = AlternativeParser(pattern, alternative)
                 else:
                     factory = int
 
@@ -113,7 +130,7 @@ class HyphDict(object):
                 if max(values) == 0:
                     continue
 
-                # chop zeros from beginning and end, and store start offset.
+                # chop zeros from beginning and end, and store start offset
                 start, end = 0, len(values)
                 while not values[start]:
                     start += 1
@@ -128,10 +145,12 @@ class HyphDict(object):
     def positions(self, word):
         """Get a list of positions where the word can be hyphenated.
 
+        :param word: unicode string of the word to hyphenate
+
         E.g. for the dutch word 'lettergrepen' this method returns ``[3, 6,
         9]``.
 
-        Each position is a ``dint`` with a data attribute.
+        Each position is a ``DataInt`` with a data attribute.
 
         If the data attribute is not ``None``, it contains a tuple with
         information about nonstandard hyphenation at that point: ``(change,
@@ -154,6 +173,7 @@ class HyphDict(object):
         if points is None:
             pointed_word = '.%s.' % word
             references = [0] * (len(pointed_word) + 1)
+
             for i in range(len(pointed_word) - 1):
                 for j in range(
                         i + 1, min(i + self.maxlen, len(pointed_word)) + 1):
@@ -165,24 +185,34 @@ class HyphDict(object):
                             max, value, references[slice_])
 
             points = [
-                dint(i - 1, reference=reference)
+                DataInt(i - 1, reference=reference)
                 for i, reference in enumerate(references) if reference % 2]
             self.cache[word] = points
         return points
 
 
-class Hyphenator(object):
+class Pyphen(object):
     """Hyphenation class, with methods to hyphenate strings in various ways."""
 
-    def __init__(self, filename, left=2, right=2, cache=True):
-        """Create an hyphenator
+    def __init__(self, filename=None, lang=None, left=2, right=2, cache=True):
+        """Create an hyphenation instance for given lang or filename.
 
         :param filename: filename of hyph_*.dic to read
+        :param lang: lang of the included dict to use if no filename is given
         :param left: minimum number of characters of the first syllabe
         :param right: minimum number of characters of the last syllabe
         :param cache: if ``True``, use cached copy of the hyphenation patterns
 
         """
+        if not filename:
+            if lang:
+                if lang in LANGUAGES:
+                    filename = LANGUAGES[lang]
+                else:
+                    raise IOError('Unknown language "%s"' % lang)
+            else:
+                raise IOError('No filename and no lang given')
+
         self.left = left
         self.right = right
         if not cache or filename not in hdcache:
@@ -192,6 +222,8 @@ class Hyphenator(object):
     def positions(self, word):
         """Get a list of positions where the word can be hyphenated.
 
+        :param word: unicode string of the word to hyphenate
+
         See also ``HyphDict.positions``. The points that are too far to the
         left or right are removed.
 
@@ -200,10 +232,11 @@ class Hyphenator(object):
         return [i for i in self.hd.positions(word) if self.left <= i <= right]
 
     def iterate(self, word):
-        """Iterate over all hyphenation possibilities, the longest first."""
-        if isinstance(word, bytes):
-            word = word.decode(encoding)
+        """Iterate over all hyphenation possibilities, the longest first.
 
+        :param word: unicode string of the word to hyphenate
+
+        """
         for position in reversed(self.positions(word)):
             if position.data:
                 # get the nonstandard hyphenation data
@@ -219,9 +252,13 @@ class Hyphenator(object):
     def wrap(self, word, width, hyphen='-'):
         """Get the longest possible first part and the last part of a word.
 
+        :param word: unicode string of the word to hyphenate
+        :param width: maximum length of the first part
+        :param hyphen: unicode string used as hyphen character
+
         The first part has the hyphen already attached.
 
-        Returns ``None`` if there is no hyphenation point before width, or
+        Returns ``None`` if there is no hyphenation point before ``width``, or
         if the word could not be hyphenated.
 
         """
@@ -233,14 +270,14 @@ class Hyphenator(object):
     def inserted(self, word, hyphen='-'):
         """Get the word as a string with all the possible hyphens inserted.
 
+        :param word: unicode string of the word to hyphenate
+        :param hyphen: unicode string used as hyphen character
+
         E.g. for the dutch word ``'lettergrepen'``, this method returns the
         unicode string ``'let-ter-gre-pen'``. The hyphen string to use can be
         given as the second parameter, that defaults to ``'-'``.
 
         """
-        if isinstance(word, bytes):
-            word = word.decode(encoding)
-
         word_list = list(word)
         for position in reversed(self.positions(word)):
             if position.data:
@@ -256,17 +293,3 @@ class Hyphenator(object):
         return ''.join(word_list)
 
     __call__ = iterate
-
-
-if __name__ == '__main__':
-    dict_file = sys.argv[1]
-    word = sys.argv[2]
-
-    if isinstance(word, bytes):
-        word = word.decode(encoding)
-        dict_file = dict_file.decode(encoding)
-
-    hyphenator = Hyphenator(dict_file, left=1, right=1)
-
-    for parts in hyphenator(word):
-        print(parts)

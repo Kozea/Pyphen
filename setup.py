@@ -21,15 +21,13 @@ classifiers = [
 ]
 
 setup(
-    name='hyphenator',
-    version='0.5.1',
-    py_modules=['hyphenator'],
-    author='Wilbert Berendsen',
-    author_email='wbsoft@xs4all.nl',
-    url='http://python-hyphenator.googlecode.com/',
-    description=(
-        'Pure Python module to hyphenate text '
-        'using existing dictionaries'),
+    name='Pyphen',
+    version='0.6',
+    py_modules=['pyphen'],
+    author='Guillaume Ayoub',
+    author_email='guillaume.ayoub@kozea.fr',
+    url='https://github.com/Kozea/Pyphen',
+    description='Pure Python module to hyphenate text',
     long_description=open(
         os.path.join(os.path.dirname(__file__), 'README')).read(),
     classifiers=classifiers,

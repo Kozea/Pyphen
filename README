@@ -1,25 +1,33 @@
-Python text hyphenator
-======================
+Pyphen
+======
 
-hyphenator is a pure Python module to hyphenate text using existing Hunspell
+Pyphen is a pure Python module to hyphenate text using existing Hunspell
 hyphenation dictionaries.
 
-Many dictionaries are included in hyphenator, they come from the LibreOffice
-git repository and are distributed under various licenses, including the LGPL
-version 2.1 also used for hyphenator.
+https://github.com/Kozea/Pyphen
+
+This module is a fork of python-hyphenator, written by Wilbert Berendsen.
+
+https://code.google.com/p/python-hyphenator/
+
+Many dictionaries are included in pyphen, they come from the LibreOffice git
+repository and are distributed under various licenses, including the LGPL
+version 2.1 also used for pyphen.
 
 See: http://cgit.freedesktop.org/libreoffice/dictionaries/tree/
 
 Usage:
 
->>> from hyphenator import Hyphenator
->>> h = Hyphenator("/usr/share/myspell/hyph_nl_NL.dic")
->>> h.inserted('lettergrepen')
-u'let-ter-gre-pen'
->>> h.wrap('autobandventieldopje', 11)
+>>> import pyphen
+>>> 'nl_NL' in pyphen.LANGUAGES
+True
+>>> dic = pyphen.Pyphen(lang='nl_NL')
+>>> dic.inserted('lettergrepen')
+'let-ter-gre-pen'
+>>> dic.wrap('autobandventieldopje', 11)
 ('autoband-', 'ventieldopje')
->>> for pair in h.iterate('Amsterdam'):
-...     print pair
+>>> for pair in dic.iterate('Amsterdam'):
+...     print(pair)
 ...
 ('Amster', 'dam')
 ('Am', 'sterdam')
@@ -27,7 +35,8 @@ u'let-ter-gre-pen'
 
 Features:
 
-* 100% pure Python
+* 100% pure Python with no dependencies
+* a lot of included dictionaries
 * caches dict files and hyphenated words
 * supports nonstandard hyphenation patterns
 
