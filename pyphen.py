@@ -205,14 +205,7 @@ class Pyphen(object):
 
         """
         if not filename:
-            if lang:
-                if lang in LANGUAGES:
-                    filename = LANGUAGES[lang]
-                else:
-                    raise IOError('Unknown language "%s"' % lang)
-            else:
-                raise IOError('No filename and no lang given')
-
+            filename = LANGUAGES[lang]
         self.left = left
         self.right = right
         if not cache or filename not in hdcache:
