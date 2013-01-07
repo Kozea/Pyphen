@@ -1,1 +1,1 @@
-include README COPYING *.py dictionaries/*
+include README COPYING *.py dictionaries/*.dic
