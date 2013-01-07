@@ -23,11 +23,14 @@ classifiers = [
 setup(
     name='Pyphen',
     version='0.6',
-    py_modules=['pyphen'],
+    packages=['pyphen'],
+    provides=['pyphen'],
+    package_data={'pyphen': ['dictionaries/*.dic']},
     author='Guillaume Ayoub',
     author_email='guillaume.ayoub@kozea.fr',
     url='https://github.com/Kozea/Pyphen',
     description='Pure Python module to hyphenate text',
+    zip_safe=False,
     long_description=open(
         os.path.join(os.path.dirname(__file__), 'README')).read(),
     classifiers=classifiers,
