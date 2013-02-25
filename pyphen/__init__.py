@@ -70,10 +70,10 @@ class AlternativeParser(object):
     def __call__(self, value):
         self.index -= 1
         value = int(value)
-        if value % 2:
-            return value
-        else:
+        if value & 1:
             return DataInt(value, (self.change, self.index, self.cut))
+        else:
+            return value
 
 
 class DataInt(int):
@@ -86,7 +86,10 @@ class DataInt(int):
 
         """
         obj = int.__new__(cls, value)
-        obj.data = reference.data if isinstance(reference, DataInt) else None
+        if reference and isinstance(reference, DataInt):
+            obj.data = reference.data
+        else:
+            obj.data = data
         return obj
 
 
