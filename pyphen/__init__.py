@@ -1,7 +1,7 @@
 # This file is part of Pyphen
 #
 # Copyright 2008 - Wilbert Berendsen <info@wilbertberendsen.nl>
-# Copyright 2012 - Guillaume Ayoub <guillaume.ayoub@kozea.fr>
+# Copyright 2012-2013 - Guillaume Ayoub <guillaume.ayoub@kozea.fr>
 #
 # This library is free software: you can redistribute it and/or modify it under
 # the terms of the GNU Lesser General Public License as published by the Free
