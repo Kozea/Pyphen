@@ -58,12 +58,8 @@ class AlternativeParser(object):
     def __init__(self, pattern, alternative):
         alternative = alternative.split(',')
         self.change = alternative[0]
-        if len(alternative) > 2:
-            self.index = int(alternative[1])
-            self.cut = int(alternative[2]) + 1
-        else:
-            self.index = 1
-            self.cut = len(re.sub(r'[\d\.]', '', pattern)) + 1
+        self.index = int(alternative[1])
+        self.cut = int(alternative[2])
         if pattern.startswith('.'):
             self.index += 1
 
@@ -106,9 +102,6 @@ class HyphDict(object):
 
         with open(filename, 'rb') as stream:
             charset = stream.readline().strip().decode('ascii')
-            if charset.startswith('charset '):
-                charset = charset[8:].strip()
-
             for pattern in stream:
                 pattern = pattern.decode(charset).strip()
                 if not pattern or pattern[0] == '%':

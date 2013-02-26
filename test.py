@@ -94,8 +94,8 @@ def test_alternative():
     """Test the alternative parser."""
     dic = pyphen.Pyphen(lang='hu', left=1, right=1)
     assert tuple(dic.iterate('kulissza')) == (
-        ('kulisz', 'za'), ('ku', 'lissza'))
-    assert dic.inserted('kulissza') == 'ku-lisz-za'
+        ('kulisz', 'sza'), ('ku', 'lissza'))
+    assert dic.inserted('kulissza') == 'ku-lisz-sza'
 
 
 def test_upper():
@@ -108,5 +108,5 @@ def test_upper_alternative():
     """Test uppercase with alternative parser."""
     dic = pyphen.Pyphen(lang='hu', left=1, right=1)
     assert tuple(dic.iterate('KULISSZA')) == (
-        ('KULISZ', 'ZA'), ('KU', 'LISSZA'))
-    assert dic.inserted('KULISSZA') == 'KU-LISZ-ZA'
+        ('KULISZ', 'SZA'), ('KU', 'LISSZA'))
+    assert dic.inserted('KULISSZA') == 'KU-LISZ-SZA'
