@@ -22,7 +22,7 @@ classifiers = [
 
 setup(
     name='Pyphen',
-    version='0.6',
+    version='0.7',
     packages=['pyphen'],
     provides=['pyphen'],
     package_data={'pyphen': ['dictionaries/*.dic']},
