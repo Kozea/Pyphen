@@ -110,3 +110,9 @@ def test_upper_alternative():
     assert tuple(dic.iterate('KULISSZA')) == (
         ('KULISZ', 'SZA'), ('KU', 'LISSZA'))
     assert dic.inserted('KULISSZA') == 'KU-LISZ-SZA'
+
+
+def test_all_dictionaries():
+    """Test that all included dictionaries can be parsed."""
+    for lang in pyphen.LANGUAGES:
+        pyphen.Pyphen(lang=lang)
