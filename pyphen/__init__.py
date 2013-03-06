@@ -101,7 +101,10 @@ class HyphDict(object):
         self.patterns = {}
 
         with open(filename, 'rb') as stream:
+            # see "man 4 hunspell", iscii-devanagari is not supported by python
             charset = stream.readline().strip().decode('ascii')
+            if charset.lower() == 'microsoft-cp1251':
+                charset = 'cp1251'
             for pattern in stream:
                 pattern = pattern.decode(charset).strip()
                 if (not pattern or
