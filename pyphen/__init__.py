@@ -104,7 +104,9 @@ class HyphDict(object):
             charset = stream.readline().strip().decode('ascii')
             for pattern in stream:
                 pattern = pattern.decode(charset).strip()
-                if not pattern or pattern[0] == '%':
+                if (not pattern or
+                        pattern.startswith('%') or
+                        pattern.startswith('#')):
                     continue
 
                 # replace ^^hh with the real character
