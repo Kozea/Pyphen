@@ -59,7 +59,7 @@ def test_missing_dict():
         pyphen.Pyphen(lang='mi_SS')
     except KeyError:
         pass
-    else:
+    else:  # pragma: no cover
         raise Exception('Importing a missing dict must raise a KeyError')
 
 
