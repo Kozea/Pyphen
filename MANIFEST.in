@@ -1,1 +1,1 @@
-include README COPYING pyphen/__init__.py pyphen/dictionaries/*.dic
+include README COPYING pyphen.py dictionaries/*.dic

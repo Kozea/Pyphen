@@ -20,12 +20,17 @@ classifiers = [
     'Topic :: Text Processing :: Linguistic',
 ]
 
+_dict_folder = os.path.join(os.path.dirname(__file__), 'dictionaries')
 setup(
     name='Pyphen',
     version='0.7',
-    packages=['pyphen'],
+    py_modules=['pyphen'],
     provides=['pyphen'],
-    package_data={'pyphen': ['dictionaries/*.dic']},
+    data_files=[(
+        os.path.join('share', 'pyphen', 'dictionaries'), (
+            os.path.join(_dict_folder, filename)
+            for filename in os.listdir(_dict_folder)
+            if filename.endswith('.dic')))],
     author='Guillaume Ayoub',
     author_email='guillaume.ayoub@kozea.fr',
     url='https://github.com/Kozea/Pyphen',
