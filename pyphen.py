@@ -148,7 +148,7 @@ class HyphDict(object):
                 self.patterns[''.join(tags)] = start, values[start:end]
 
         self.cache = {}
-        self.maxlen = max(map(len, self.patterns.keys()))
+        self.maxlen = max(len(key) for key in self.patterns)
 
     def positions(self, word):
         """Get a list of positions where the word can be hyphenated.
@@ -187,10 +187,10 @@ class HyphDict(object):
                         i + 1, min(i + self.maxlen, len(pointed_word)) + 1):
                     pattern = self.patterns.get(pointed_word[i:j])
                     if pattern:
-                        offset, value = pattern
-                        slice_ = slice(i + offset, i + offset + len(value))
+                        offset, values = pattern
+                        slice_ = slice(i + offset, i + offset + len(values))
                         references[slice_] = map(
-                            max, value, references[slice_])
+                            max, values, references[slice_])
 
             points = [
                 DataInt(i - 1, reference=reference)
