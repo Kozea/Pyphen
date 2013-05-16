@@ -4,8 +4,9 @@ from distutils.core import setup
 classifiers = [
     'Development Status :: 4 - Beta',
     'Intended Audience :: Developers',
-    'License :: OSI Approved :: '
-    'GNU Library or Lesser General Public License (LGPL)',
+    'License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)',
+    'License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)',
+    'License :: OSI Approved :: Mozilla Public License 1.1 (MPL 1.1)',
     'Programming Language :: Python',
     'Programming Language :: Python :: 2',
     'Programming Language :: Python :: 2.6',
