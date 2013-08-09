@@ -31,6 +31,12 @@ import os
 import sys
 import re
 
+try:
+    unichr
+except NameError:
+    # Python3
+    unichr = chr
+
 
 __all__ = ('Pyphen', 'LANGUAGES')
 
