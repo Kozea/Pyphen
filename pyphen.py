@@ -38,7 +38,7 @@ except NameError:
     unichr = chr
 
 
-__all__ = ('Pyphen', 'LANGUAGES')
+__all__ = ('Pyphen', 'LANGUAGES', 'language_fallback')
 
 # cache of per-file HyphDict objects
 hdcache = {}
@@ -59,6 +59,23 @@ LANGUAGES = dict(
     if os.path.isdir(dictionaries_root)
     for filename in os.listdir(dictionaries_root)
     if filename.endswith('.dic'))
+
+
+def language_fallback(language):
+    """Get a fallback language available in our dictionaries.
+
+    http://www.unicode.org/reports/tr35/#Locale_Inheritance
+
+    We use the normal truncation inheritance. This function needs aliases
+    including scripts for languages with multiple regions available.
+
+    """
+    parts = language.replace('-', '_').split('_')
+    while parts:
+        language = '_'.join(parts)
+        if language in LANGUAGES:
+            return language
+        parts.pop()
 
 
 class AlternativeParser(object):
@@ -219,7 +236,7 @@ class Pyphen(object):
 
         """
         if not filename:
-            filename = LANGUAGES[lang]
+            filename = LANGUAGES[language_fallback(lang)]
         self.left = left
         self.right = right
         if not cache or filename not in hdcache:

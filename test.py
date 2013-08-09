@@ -53,6 +53,13 @@ def test_iterate():
         ('Amster', 'dam'), ('Am', 'sterdam'))
 
 
+def test_fallback_dict():
+    """Test the ``iterate`` method with a fallback dict."""
+    dic = pyphen.Pyphen(lang='nl_NL-variant')
+    assert tuple(dic.iterate('Amsterdam')) == (
+        ('Amster', 'dam'), ('Am', 'sterdam'))
+
+
 def test_missing_dict():
     """Test a missing dict."""
     try:
@@ -116,3 +123,14 @@ def test_all_dictionaries():
     """Test that all included dictionaries can be parsed."""
     for lang in pyphen.LANGUAGES:
         pyphen.Pyphen(lang=lang)
+
+
+def test_fallback():
+    """Test the language fallback algorithm."""
+    assert pyphen.language_fallback('en') == 'en'
+    assert pyphen.language_fallback('en_US') == 'en_US'
+    assert pyphen.language_fallback('en_FR') == 'en'
+    assert pyphen.language_fallback('en-Latn-US') == 'en_Latn_US'
+    assert pyphen.language_fallback('en-Cyrl-US') == 'en'
+    assert pyphen.language_fallback('fr-Latn-FR') == 'fr'
+    assert pyphen.language_fallback('en-US_variant1-x') == 'en_US'
