@@ -19,6 +19,8 @@ http://cgit.freedesktop.org/libreoffice/dictionaries/tree/
 Usage:
 
 >>> import pyphen
+>>> pyphen.language_fallback('nl_NL_variant1')
+'nl_NL'
 >>> 'nl_NL' in pyphen.LANGUAGES
 True
 >>> dic = pyphen.Pyphen(lang='nl_NL')
