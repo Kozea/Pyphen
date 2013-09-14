@@ -24,7 +24,7 @@ classifiers = [
 _dict_folder = os.path.join(os.path.dirname(__file__), 'dictionaries')
 setup(
     name='Pyphen',
-    version='0.8',
+    version='0.9dev',
     py_modules=['pyphen'],
     provides=['pyphen'],
     data_files=[(

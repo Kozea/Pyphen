@@ -28,7 +28,6 @@ Pure Python module to hyphenate text, inspired by Ruby's Text::Hyphen.
 from __future__ import unicode_literals
 
 import os
-import sys
 import re
 
 try:
@@ -36,6 +35,15 @@ try:
 except NameError:
     # Python3
     unichr = chr
+
+try:
+    import pkg_resources
+except ImportError:
+    # no setuptools installed
+    import sys
+    sys_root = sys.prefix
+else:
+    sys_root = pkg_resources.resource_filename('pyphen', '')
 
 
 __all__ = ('Pyphen', 'LANGUAGES', 'language_fallback')
@@ -51,7 +59,7 @@ parse = re.compile(r'(\d?)(\D?)').findall
 # - at <sys_root>/share/pyphen/dictionaries when Pyphen is installed
 # - at <project_root>/dictionaries when Pyphen is not installed
 dictionaries_roots = (
-    os.path.join(sys.prefix, 'share', 'pyphen', 'dictionaries'),
+    os.path.join(sys_root, 'share', 'pyphen', 'dictionaries'),
     os.path.join(os.path.dirname(__file__), 'dictionaries'))
 LANGUAGES = dict(
     (filename[5:-4], os.path.join(dictionaries_root, filename))
