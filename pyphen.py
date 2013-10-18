@@ -3,18 +3,14 @@
 # Copyright 2008 - Wilbert Berendsen <info@wilbertberendsen.nl>
 # Copyright 2012-2013 - Guillaume Ayoub <guillaume.ayoub@kozea.fr>
 #
-# This library is free software: you can redistribute it and/or modify it under
-# the terms of the GNU Lesser General Public License as published by the Free
-# Software Foundation, either version 2.1 of the License, or (at your option)
-# any later version.
+# This library is free software.  It is released under the
+# GPL 2.0+/LGPL 2.1+/MPL 1.1 tri-license.  See COPYING.GPL, COPYING.LGPL and
+# COPYING.MPL for more details.
 #
 # This library is distributed in the hope that it will be useful, but WITHOUT
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 # FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
 # details.
-#
-# You should have received a copy of the GNU Lesser General Public License
-# along with Pyphen.  If not, see <http://www.gnu.org/licenses/>.
 
 """
 
