@@ -24,6 +24,7 @@ Pure Python module to hyphenate text, inspired by Ruby's Text::Hyphen.
 from __future__ import unicode_literals
 
 import os
+import sys
 import re
 
 try:
@@ -31,16 +32,6 @@ try:
 except NameError:
     # Python3
     unichr = chr
-
-try:
-    import pkg_resources
-except ImportError:
-    # no setuptools installed
-    import sys
-    sys_root = sys.prefix
-else:
-    sys_root = pkg_resources.resource_filename('pyphen', '')
-
 
 __all__ = ('Pyphen', 'LANGUAGES', 'language_fallback')
 
@@ -52,11 +43,23 @@ parse_hex = re.compile(r'\^{2}([0-9a-f]{2})').sub
 parse = re.compile(r'(\d?)(\D?)').findall
 
 # included dictionaries are available:
-# - at <sys_root>/share/pyphen/dictionaries when Pyphen is installed
+# - at <sys.prefix>/share/pyphen/dictionaries when Pyphen is installed
 # - at <project_root>/dictionaries when Pyphen is not installed
-dictionaries_roots = (
-    os.path.join(sys_root, 'share', 'pyphen', 'dictionaries'),
-    os.path.join(os.path.dirname(__file__), 'dictionaries'))
+# - at <pkg_resources>/share/pyphen/dictionaries when Pyphen is in an egg
+try:
+    import pkg_resources
+except ImportError:
+    dictionaries_roots = ()
+else:
+    dictionaries_roots = (os.path.join(
+        pkg_resources.resource_filename('pyphen', ''),
+        'share', 'pyphen', 'dictionaries'),)
+finally:
+    dictionaries_roots += (
+        os.path.join(sys.prefix, 'share', 'pyphen', 'dictionaries'),
+        os.path.join(os.path.dirname(__file__), 'dictionaries'))
+
+
 LANGUAGES = dict(
     (filename[5:-4], os.path.join(dictionaries_root, filename))
     for dictionaries_root in dictionaries_roots
