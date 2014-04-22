@@ -116,6 +116,12 @@ def language_fallback(language):
     We use the normal truncation inheritance. This function needs aliases
     including scripts for languages with multiple regions available.
 
+    Example:
+
+        >>> import pyphen
+        >>> pyphen.language_fallback('nl_NL_variant1')
+        u'nl_NL'
+
     """
     parts = language.replace('-', '_').split('_')
     while parts:
@@ -275,7 +281,7 @@ class Pyphen(object):
     def __init__(self, filename=None, lang=None, left=2, right=2, cache=True):
         """Create an hyphenation instance for given lang or filename.
 
-        :param filename: filename of hyph_*.dic to read
+        :param filename: filename of ``hyph_*.dic`` to read
         :param lang: lang of the included dict to use if no filename is given
         :param left: minimum number of characters of the first syllabe
         :param right: minimum number of characters of the last syllabe
@@ -295,8 +301,15 @@ class Pyphen(object):
 
         :param word: unicode string of the word to hyphenate
 
-        See also ``HyphDict.positions``. The points that are too far to the
-        left or right are removed.
+        See also :meth:`HyphDict.positions`. The points that are too far to
+        the left or right are removed.
+
+        Example:
+
+        >>> import pyphen
+        >>> dic = pyphen.Pyphen(lang='da_DK')
+        >>> dic.positions('lettergrepen')
+        [3, 6, 9]
 
         """
         right = len(word) - self.right
@@ -306,6 +319,15 @@ class Pyphen(object):
         """Iterate over all hyphenation possibilities, the longest first.
 
         :param word: unicode string of the word to hyphenate
+
+        Example:
+
+        >>> import pyphen
+        >>> dic = pyphen.Pyphen(lang='nl_NL')
+        >>> for pair in dic.iterate('Amsterdam'):
+        ...     print(pair)
+        (u'Amster', u'dam')
+        (u'Am', u'sterdam')
 
         """
         for position in reversed(self.positions(word)):
@@ -329,6 +351,13 @@ class Pyphen(object):
 
         The first part has the hyphen already attached.
 
+        Example:
+
+        >>> import pyphen
+        >>> dic = pyphen.Pyphen(lang='nl_NL')
+        >>> dic.wrap('autobandventieldopje', 11)
+        (u'autoband-', u'ventieldopje')
+
         Returns ``None`` if there is no hyphenation point before ``width``, or
         if the word could not be hyphenated.
 
@@ -339,14 +368,21 @@ class Pyphen(object):
                 return w1 + hyphen, w2
 
     def inserted(self, word, hyphen='-'):
-        """Get the word as a string with all the possible hyphens inserted.
+        """Get the word as a unicode string with all the possible hyphens
+        inserted.
 
         :param word: unicode string of the word to hyphenate
         :param hyphen: unicode string used as hyphen character
 
-        E.g. for the dutch word ``'lettergrepen'``, this method returns the
-        unicode string ``'let-ter-gre-pen'``. The hyphen string to use can be
-        given as the second parameter, that defaults to ``'-'``.
+        The hyphen string to use can be given as the second parameter,
+        that defaults to ``'-'``.
+
+        Example:
+
+        >>> import pyphen
+        >>> dic = pyphen.Pyphen(lang='nl_NL')
+        >>> dic.inserted('lettergrepen')
+        u'let-ter-gre-pen'
 
         """
         word_list = list(word)
@@ -364,3 +400,7 @@ class Pyphen(object):
         return ''.join(word_list)
 
     __call__ = iterate
+
+if __name__ == "__main__":
+    import doctest; doctest.testmod()
+
