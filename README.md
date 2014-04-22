@@ -18,22 +18,21 @@ http://cgit.freedesktop.org/libreoffice/dictionaries/tree/
 
 Usage:
 
->>> import pyphen
->>> pyphen.language_fallback('nl_NL_variant1')
-'nl_NL'
->>> 'nl_NL' in pyphen.LANGUAGES
-True
->>> dic = pyphen.Pyphen(lang='nl_NL')
->>> dic.inserted('lettergrepen')
-'let-ter-gre-pen'
->>> dic.wrap('autobandventieldopje', 11)
-('autoband-', 'ventieldopje')
->>> for pair in dic.iterate('Amsterdam'):
-...     print(pair)
-...
-('Amster', 'dam')
-('Am', 'sterdam')
->>>
+    >>> import pyphen
+    >>> pyphen.language_fallback('nl_NL_variant1')
+    u'nl_NL'
+    >>> u'nl_NL' in pyphen.LANGUAGES
+    True
+    >>> dic = pyphen.Pyphen(lang='nl_NL')
+    >>> dic.inserted('lettergrepen')
+    u'let-ter-gre-pen'
+    >>> dic.wrap('autobandventieldopje', 11)
+    (u'autoband-', u'ventieldopje')
+    >>> for pair in dic.iterate('Amsterdam'):
+    ...     print(pair)
+    (u'Amster', u'dam')
+    (u'Am', u'sterdam')
+    >>>
 
 Features:
 
@@ -44,5 +43,4 @@ Features:
 
 License:
 
-Pyphen is released under the GPL 2.0+/LGPL 2.1+/MPL 1.1 tri-license.
-See COPYING.GPL, COPYING.LGPL and COPYING.MPL for more details.
+Pyphen is released under the GPL 2.0+/LGPL 2.1+/MPL 1.1 tri-license. See COPYING.GPL, COPYING.LGPL and COPYING.MPL for more details.
