@@ -68,6 +68,46 @@ LANGUAGES = dict(
     if filename.endswith('.dic'))
 
 
+LANGUANGE_ALIASES = {
+    'af': 'af_ZA',
+    'bg': 'bg_BG',
+    'cs': 'cs_CZ',
+    'da': 'da_DK',
+    'de': 'de_DE',
+    'el': 'el_GR',
+    'en': 'en_US',
+    'en_Latn_GB': 'en_GB',
+    'en_Latn_US': 'en_US',
+    'et': 'et_EE',
+    'hr': 'hr_HR',
+    'hu': 'hu_HU',
+    'it': 'it_IT',
+    'lt': 'lt_LT',
+    'lv': 'lv_LV',
+    'nb': 'nb_NO',
+    'nl': 'nl_NL',
+    'nn': 'nn_NO',
+    'pl': 'pl_PL',
+    'pt': 'pt_PT',
+    'pt_Latn_BR': 'pt_BR',
+    'pt_Latn_PT': 'pt_PT',
+    'ro': 'ro_RO',
+    'ru': 'ru_RU',
+    'sk': 'sk_SK',
+    'sl': 'sl_SI',
+    'te': 'te_IN',
+    'uk': 'uk_UA',
+    'zu': 'zu_ZA',
+}
+
+
+# update languages with the aliases
+for alias, target in LANGUANGE_ALIASES.iteritems():
+    if LANGUAGES.has_key(alias):
+        raise ValueError('Cannot substitute %s with an alias to %s' % (alias,
+            target))
+    LANGUAGES[alias] = LANGUAGES[target]
+
 def language_fallback(language):
     """Get a fallback language available in our dictionaries.
 
