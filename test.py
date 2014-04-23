@@ -134,3 +134,13 @@ def test_fallback():
     assert pyphen.language_fallback('en-Cyrl-US') == 'en'
     assert pyphen.language_fallback('fr-Latn-FR') == 'fr'
     assert pyphen.language_fallback('en-US_variant1-x') == 'en_US'
+
+def test_lang_alias():
+    """Test that language alias can be parsed."""
+    pyphen.Pyphen(lang='ru')
+
+def test_all_lang_aliases():
+    """Test that all language aliases can be parsed."""
+    for alias in pyphen.LANGUANGE_ALIASES.iterkeys():
+        pyphen.Pyphen(lang=alias)
+

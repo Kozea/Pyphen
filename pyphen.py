@@ -289,7 +289,10 @@ class Pyphen(object):
 
         """
         if not filename:
-            filename = LANGUAGES[language_fallback(lang)]
+            try:
+                filename = LANGUAGES[language_fallback(lang)]
+            except KeyError:
+                raise KeyError('No dictionary found for language %s' % lang)
         self.left = left
         self.right = right
         if not cache or filename not in hdcache:
