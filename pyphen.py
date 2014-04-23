@@ -307,7 +307,7 @@ class Pyphen(object):
         Example:
 
         >>> import pyphen
-        >>> dic = pyphen.Pyphen(lang='da_DK')
+        >>> dic = pyphen.Pyphen(lang='nl')
         >>> dic.positions('lettergrepen')
         [3, 6, 9]
 
