@@ -27,6 +27,8 @@ import os
 import sys
 import re
 
+from bisect import bisect_right
+
 try:
     unichr
 except NameError:
@@ -370,6 +372,24 @@ class Pyphen(object):
             if len(w1) <= width:
                 return w1 + hyphen, w2
 
+    def _apply_positions(self, word, hyphen, positions):
+        """Get a list of unicode characters with ``hyphen`` inserted in given
+        positions. See :meth:`positions`
+        """
+        word_list = list(word)
+        for position in reversed(positions):
+            if position.data:
+                # get the nonstandard hyphenation data
+                change, index, cut = position.data
+                index += position
+                if word.isupper():
+                    change = change.upper()
+                word_list[index:index + cut] = change.replace('=', hyphen)
+            else:
+                word_list.insert(position, hyphen)
+
+        return ''.join(word_list)
+
     def inserted(self, word, hyphen='-'):
         """Get the word as a unicode string with all the possible hyphens
         inserted.
@@ -388,19 +408,60 @@ class Pyphen(object):
         u'let-ter-gre-pen'
 
         """
-        word_list = list(word)
-        for position in reversed(self.positions(word)):
-            if position.data:
-                # get the nonstandard hyphenation data
-                change, index, cut = position.data
-                index += position
-                if word.isupper():
-                    change = change.upper()
-                word_list[index:index + cut] = change.replace('=', hyphen)
-            else:
-                word_list.insert(position, hyphen)
+        return self._apply_positions(word, hyphen, self.positions(word))
 
-        return ''.join(word_list)
+    def multiwrap(self, word, width, hyphen='-'):
+        """Attempt to partition a word so that each part is *roughly* ``width``
+        characters long (**not** counting hyphen). Existing hyphens are treated
+        as hard breaks and will always present in the result.
+
+        This method does not guarantee that each syllable length will be
+        *at most* ``width`` characters long, either because an earlier
+        hyphenation point doesn't exist or because *non-standard* hyphenation
+        patterns are applied (the latter seems to be mainly relevant for
+        Hungarian language, though).
+
+        :param word: unicode string of the word to hyphenate
+        :param width: *reccomended* syllable length
+        :param hyphen: unicode string used as hyphen character
+
+        Example:
+
+        >>> import pyphen
+        >>> dic = pyphen.Pyphen(lang='en')
+        >>> print dic.multiwrap('Antidisestablishmentarianism', 10)
+        Antidises-tablishmen-tarianism
+        >>> print dic.multiwrap('inter-galactic', 5)
+        inter-galac-tic
+
+        """
+        def multiwrap_simple(word):
+            positions = self.positions(word)
+            positions.append(len(word))
+
+            filtered_positions, next_width = [], width
+
+            while True:
+                pos_index = bisect_right(positions, next_width)
+
+                if pos_index >= len(positions):
+                    break
+                elif pos_index > 0:
+                    pos = positions[pos_index - 1]
+
+                    if filtered_positions and pos is filtered_positions[-1]:
+                        next_width = positions[pos_index]
+                    else:
+                        filtered_positions.append(pos)
+                        next_width = pos + width
+                else:
+                    next_width = positions[pos_index]
+
+            return self._apply_positions(word, hyphen, filtered_positions)
+
+        # handle compound words as hard breaks
+        return hyphen.join([ multiwrap_simple(simpleword)
+                for simpleword in word.split(hyphen) ])
 
     __call__ = iterate
 

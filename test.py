@@ -144,3 +144,19 @@ def test_all_lang_aliases():
     for alias in pyphen.LANGUANGE_ALIASES.iterkeys():
         pyphen.Pyphen(lang=alias)
 
+def test_multiwrap():
+    """Test the ``multiwrap`` method."""
+    dic = pyphen.Pyphen(lang='en')
+
+    assert dic.multiwrap('galactic', 5) == 'galac-tic'
+    assert dic.multiwrap('inter-galactic', 5) == 'inter-galac-tic'
+
+    assert dic.inserted('floccinaucinihilipilification') ==\
+            'floc-cin-aucini-hilip-il-i-fi-ca-tion'
+    assert dic.multiwrap('floccinaucinihilipilification', 10) ==\
+            'floccin-aucini-hilipilifi-cation'
+    assert dic.inserted('Antidisestablishmentarianism') ==\
+            'An-tidis-es-tab-lish-men-tar-i-an-ism'
+    assert dic.multiwrap('Antidisestablishmentarianism', 10) ==\
+            'Antidises-tablishmen-tarianism'
+
