@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # This file is part of Pyphen
 #
 # Copyright 2013 - Guillaume Ayoub <guillaume.ayoub@kozea.fr>
@@ -159,4 +160,14 @@ def test_multiwrap():
             'An-tidis-es-tab-lish-men-tar-i-an-ism'
     assert dic.multiwrap('Antidisestablishmentarianism', 10) ==\
             'Antidises-tablishmen-tarianism'
+
+def test_hebrew():
+    """ Test Hebrew dictionary."""
+    dic = pyphen.Pyphen(lang='he')
+    assert dic.inserted('אברא-קדברא') == 'אברא-קדברא'
+
+def test_arabic():
+    """ Test Arabic dictionary."""
+    dic = pyphen.Pyphen(lang='ar')
+    assert dic.inserted('عربة قطار') == 'عربة قطار'
 
