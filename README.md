@@ -18,22 +18,23 @@ http://cgit.freedesktop.org/libreoffice/dictionaries/tree/
 
 Usage:
 
->>> import pyphen
->>> pyphen.language_fallback('nl_NL_variant1')
+```
+>import pyphen
+>pyphen.language_fallback('nl_NL_variant1')
 'nl_NL'
->>> 'nl_NL' in pyphen.LANGUAGES
+>'nl_NL' in pyphen.LANGUAGES
 True
->>> dic = pyphen.Pyphen(lang='nl_NL')
->>> dic.inserted('lettergrepen')
+>dic = pyphen.Pyphen(lang='nl_NL')
+> dic.inserted('lettergrepen')
 'let-ter-gre-pen'
->>> dic.wrap('autobandventieldopje', 11)
+> dic.wrap('autobandventieldopje', 11)
 ('autoband-', 'ventieldopje')
->>> for pair in dic.iterate('Amsterdam'):
+> for pair in dic.iterate('Amsterdam'):
 ...     print(pair)
 ...
 ('Amster', 'dam')
 ('Am', 'sterdam')
->>>
+```
 
 Features:
 
