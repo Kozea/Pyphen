@@ -48,12 +48,12 @@ parse = re.compile(r'(\d?)(\D?)').findall
 # - at <pkg_resources>/share/pyphen/dictionaries when Pyphen is in an egg
 try:
     import pkg_resources
-except ImportError:
-    dictionaries_roots = ()
-else:
     dictionaries_roots = (os.path.join(
         pkg_resources.resource_filename('pyphen', ''),
         'share', 'pyphen', 'dictionaries'),)
+except ImportError:
+    dictionaries_roots = ()
+
 finally:
     dictionaries_roots += (
         os.path.join(sys.prefix, 'share', 'pyphen', 'dictionaries'),
