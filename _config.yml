@@ -5,13 +5,5 @@ description: Hyphenation in pure Python
 baseurl: ""
 url: "http://pyphen.org"
 
-# Development dummy values
-github:
-  releases:
-    - created_at: 2000-01-01T12:00:00Z
-      draft: false
-      tag_name: 1.0.0
-  repository_url: https://github.com/Kozea/Pyphen
-
 # Build settings
 markdown: kramdown

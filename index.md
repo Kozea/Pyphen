@@ -83,8 +83,10 @@ The dictionaries included in LibreOffice are distributed with Pyphen:
 Download
 --------
 
-{% assign releases = site.github.releases | where:"draft",false | sort:"created_at" | reverse %}
-{% assign latest_release = releases[0] %}
+{% if site.github %}
+  {% assign releases = site.github.releases | where:"draft",false | sort:"created_at" | reverse %}
+  {% assign latest_release = releases[0] %}
+{% endif %}
 
 Latest version of Pyphen is {{ latest_release.tag_name }}, released on
 {{ latest_release.created_at | date: "%B %-d, %Y" }}.
