@@ -1,0 +1,91 @@
+---
+# Scss for Pyphen
+---
+
+@import url(http://fonts.googleapis.com/css?family=Droid+Sans+Mono|EB+Garamond);
+
+html {
+  background: white;
+  color: rgba(30, 45, 30, 0.9);
+  font-family: 'EB Garamond', serif;
+  font-size: 1.2em;
+}
+
+body {
+  margin: auto;
+  max-width: 900px;
+  padding: 1em 2em;
+}
+
+h1 {
+  color: #cb4b16;
+  font-size: 5em;
+  font-weight: 400;
+  margin: 0.5em 0 1em 0;
+  text-transform: lowercase;
+
+  &::after {
+    content: '~';
+    font-size: 2em;
+    line-height: 0.6em;
+    opacity: 0.05;
+    padding: 0 0.1em;
+    vertical-align: bottom;
+  }
+}
+
+h2 {
+  font-size: 2em;
+  font-weight: 400;
+  margin: 1.5em 0 0.5em 0;
+}
+
+a {
+  color: #cb4b16;
+  text-decoration: inherit;
+}
+
+pre, code {
+  font-family: 'Droid Sans Mono', monospace;
+
+  &:not(pre code) {
+    background: rgba(30, 45, 30, 0.03);
+    border-radius: 0.3em;
+    font-size: 0.82em;
+  }
+}
+
+pre {
+  padding: 1em;
+
+  code {
+    .bp, .kn, .k, .ow { color: #b58900 }
+    .n, .nn { color: #cb4b16 }
+    .mi { color: #859900 }
+    .o { color: #bbbbbb }
+    .p { color: #888888 }
+    .s { color: #2aa198 }
+  }
+}
+
+code:not(pre code) {
+  padding: 0.2em 0.4em;
+}
+
+footer {
+  text-align: center;
+
+  li {
+    display: inline-block;
+    padding: 1em;
+  }
+
+  &::before {
+    content: '~';
+    font-size: 12em;
+    line-height: 0.8em;
+    opacity: 0.03;
+    right: 0;
+    display: block;
+  }
+}
