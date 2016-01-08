@@ -24,7 +24,6 @@ Pure Python module to hyphenate text, inspired by Ruby's Text::Hyphen.
 from __future__ import unicode_literals
 
 import os
-import sys
 import re
 
 try:
@@ -42,28 +41,14 @@ hdcache = {}
 parse_hex = re.compile(r'\^{2}([0-9a-f]{2})').sub
 parse = re.compile(r'(\d?)(\D?)').findall
 
-# included dictionaries are available:
-# - at <sys.prefix>/share/pyphen/dictionaries when Pyphen is installed
-# - at <project_root>/dictionaries when Pyphen is not installed
-# - at <pkg_resources>/share/pyphen/dictionaries when Pyphen is in an egg
 try:
-    import pkg_resources
-    dictionaries_roots = (os.path.join(
-        pkg_resources.resource_filename('pyphen', ''),
-        'share', 'pyphen', 'dictionaries'),)
+    from pkg_resources import resource_filename
+    dictionaries_root = resource_filename('pyphen', 'dictionaries')
 except ImportError:
-    dictionaries_roots = ()
-
-finally:
-    dictionaries_roots += (
-        os.path.join(sys.prefix, 'share', 'pyphen', 'dictionaries'),
-        os.path.join(os.path.dirname(__file__), 'dictionaries'))
-
+    dictionaries_root = os.path.join(os.path.dirname(__file__), 'dictionaries')
 
 LANGUAGES = dict(
     (filename[5:-4], os.path.join(dictionaries_root, filename))
-    for dictionaries_root in dictionaries_roots
-    if os.path.isdir(dictionaries_root)
     for filename in os.listdir(dictionaries_root)
     if filename.endswith('.dic'))
 

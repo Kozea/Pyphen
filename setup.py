@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os.path
 from setuptools import setup
 
@@ -23,17 +25,14 @@ classifiers = [
     'Topic :: Text Processing :: Linguistic',
 ]
 
-_dict_folder = os.path.join(os.path.dirname(__file__), 'dictionaries')
 setup(
     name='Pyphen',
-    version='0.9.2',
-    py_modules=['pyphen'],
+    version='0.9.3',
     provides=['pyphen'],
-    data_files=[(
-        os.path.join('share', 'pyphen', 'dictionaries'), (
-            os.path.join(_dict_folder, filename)
-            for filename in os.listdir(_dict_folder)
-            if filename.endswith('.dic')))],
+    packages=['pyphen'],
+    package_data={'pyphen': [os.path.join(
+        os.path.dirname(__file__), 'dictionaries', '*.dic')]},
+    include_package_data=True,
     author='Guillaume Ayoub',
     author_email='guillaume.ayoub@kozea.fr',
     url='https://github.com/Kozea/Pyphen',
