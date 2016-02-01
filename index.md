@@ -7,7 +7,7 @@ permalink: /
 Presentation
 ------------
 
-Pyphen is a pure Python module to hyphenate text using included or external
+{{ site.title }} is a pure Python module to hyphenate text using included or external
 Hunspell hyphenation dictionaries.
 
 
@@ -45,7 +45,7 @@ Features
 Included Dictionaries
 ---------------------
 
-The dictionaries included in LibreOffice are distributed with Pyphen:
+The dictionaries included in LibreOffice are distributed with {{ site.title }}:
 
 - Afrikaans
 - Bulgarian
@@ -88,20 +88,20 @@ Download
   {% assign latest_release = releases[0] %}
 {% endif %}
 
-Latest version of Pyphen is {{ latest_release.tag_name }}, released on
+Latest version of {{ site.title }} is {{ latest_release.tag_name }}, released on
 {{ latest_release.created_at | date: "%B %-d, %Y" }}.
 
-Pyphen is [available on PyPI](http://pypi.python.org/pypi/Pyphen/). To
+{{ site.title }} [available on PyPI](http://pypi.python.org/pypi/{{ site.title }}/). To
 install, just type `pip install pyphen` as superuser.
 
-Pyphen is also packaged for ArchLinux, CentOS, Gentoo, Fedora and Mageia.
+{{ site.title }} is also packaged for ArchLinux, CentOS, Gentoo, Fedora and Mageia.
 
 If you want the development version, take a look at the
 [git repository on GitHub]({{ site.github.repository_url }}), or clone it
-thanks to `git clone git://github.com/Kozea/Pyphen.git`.
+thanks to `git clone git://github.com/Kozea/{{ site.title }}.git`.
 
 You can also download
-[the Pyphen package of the git repository]({{ site.github.repository_url }}/tarball/master).
+[the {{ site.title }} package of the git repository]({{ site.github.repository_url }}/tarball/master).
 
 
 Contribute
@@ -115,13 +115,13 @@ on Freenode).
 License
 -------
 
-Pyphen is a friendly fork of the unmaintained
+{{ site.title }} is a friendly fork of the unmaintained
 [python-hyphenator](https://code.google.com/p/python-hyphenator/) module.
 
-Pyphen is released under the GPL 2.0+ ~ LGPL 2.1+ ~ MPL 1.1 tri-license. See
+{{ site.title }} is released under the GPL 2.0+ ~ LGPL 2.1+ ~ MPL 1.1 tri-license. See
 `COPYING.GPL`, `COPYING.LGPL` and `COPYING.MPL` for more details.
 
-The dictionaries included in Pyphen come from the LibreOffice’s git repository
+The dictionaries included in {{ site.title }} come from the LibreOffice’s git repository
 and are distributed under GPL, LGPL and/or MPL. See the dictionaries and
 [LibreOffice's repository](http://cgit.freedesktop.org/libreoffice/dictionaries/tree/)
 for more details.

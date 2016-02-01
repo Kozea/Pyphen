@@ -4,6 +4,3 @@ email: contact@kozea.fr
 description: Hyphenation in pure Python
 baseurl: ""
 url: "http://pyphen.org"
-
-# Build settings
-markdown: kramdown
