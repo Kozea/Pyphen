@@ -49,6 +49,7 @@ a {
 
 pre, code {
   font-family: 'Droid Sans Mono', monospace;
+  overflow: auto;
 
   &:not(pre code) {
     background: rgba(30, 45, 30, 0.03);
