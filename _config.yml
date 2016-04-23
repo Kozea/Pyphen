@@ -4,3 +4,6 @@ email: contact@kozea.fr
 description: Hyphenation in pure Python
 baseurl: ""
 url: "http://pyphen.org"
+gems:
+ - jekyll-github-metadata
+repository: Kozea/Pyphen
