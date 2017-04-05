@@ -131,7 +131,11 @@ class HyphDict(object):
                 pattern = pattern.decode(charset).strip()
                 if (not pattern or
                         pattern.startswith('%') or
-                        pattern.startswith('#')):
+                        pattern.startswith('#') or
+                        pattern.startswith('COMPOUNDLEFTHYPHENMIN') or
+                        pattern.startswith('COMPOUNDRIGHTHYPHENMIN') or
+                        pattern.startswith('LEFTHYPHENMIN') or
+                        pattern.startswith('RIGHTHYPHENMIN')):
                     continue
 
                 # replace ^^hh with the real character
