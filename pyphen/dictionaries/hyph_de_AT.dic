@@ -1,9 +1,9 @@
 ISO8859-1
 ####################################################################################
-# This is the hyphenation file "hyph_de_AT.dic" of the German dictionary           #
+# This is the hyphenation file "hyph_de_DE.dic" of the German dictionary           #
 # according to the reform of 2006-08-01	(i.e. reformed or new spelling)            #
 #                                                                                  #
-# Language: German (de AT)                                                         #
+# Language: German (de DE)                                                         #
 #                                                                                  #
 # Version:  2015-12-28                                                             #
 #           Enhanced exceptional list for improved hyphenation by Karl Zeiler      #
@@ -17,9 +17,9 @@ ISO8859-1
 #           GNU Lesser General Public License (LGPL 2 or later) and are under      #
 #           Copyright by                                                           #
 #                                                                                  #
-# Author:   conversion author: Marco Huggenberger <marco@by-night.ch>              #
+# Authors:  conversion author: Marco Huggenberger <marco@by-night.ch>              #
 #           revised conversion and extensions: Daniel Naber <naber@danielnaber.de> #
-#           improvements: Karl Zeiler <karl.zeiler@t-online.de                     #
+#           improvements: Karl Zeiler <karl.zeiler@t-online.de>                    #
 #                                                                                  #
 # Please note, this dictionary is based on syllable matching patterns              #
 # and thus should be suitable under other variations of German                     #
