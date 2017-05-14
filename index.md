@@ -32,6 +32,13 @@ True
 ('Am', 'sterdam')
 {% endhighlight %}
 
+You can also get the documentation of the module objects using:
+
+{% highlight python %}
+>>> import pyphen
+>>> help(pyphen)
+{% endhighlight %}
+
 
 Features
 --------
