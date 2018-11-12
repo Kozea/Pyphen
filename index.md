@@ -69,6 +69,7 @@ The dictionaries included in LibreOffice are distributed with {{ site.title }}:
 - Greek
 - Hungarian
 - Icelandic
+- Indonesian
 - Italian
 - Lithuanian
 - Latvian
