@@ -7,7 +7,7 @@ permalink: /
 Presentation
 ------------
 
-{{ site.title }} is a pure Python module to hyphenate text using included or external
+{{ site.title }} is a pure Python module to hyphenate words using included or external
 Hunspell hyphenation dictionaries.
 
 
