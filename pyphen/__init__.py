@@ -21,16 +21,8 @@ Pure Python module to hyphenate text, inspired by Ruby's Text::Hyphen.
 
 """
 
-from __future__ import unicode_literals
-
 import os
 import re
-
-try:
-    unichr
-except NameError:
-    # Python3
-    unichr = chr
 
 __all__ = ('Pyphen', 'LANGUAGES', 'language_fallback')
 
@@ -141,7 +133,7 @@ class HyphDict(object):
 
                 # replace ^^hh with the real character
                 pattern = parse_hex(
-                    lambda match: unichr(int(match.group(1), 16)), pattern)
+                    lambda match: chr(int(match.group(1), 16)), pattern)
 
                 # read nonstandard hyphen alternatives
                 if '/' in pattern:
