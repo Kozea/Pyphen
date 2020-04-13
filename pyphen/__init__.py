@@ -129,9 +129,9 @@ class HyphDict(object):
                 charset = 'cp1251'
             for pattern in stream:
                 pattern = pattern.decode(charset).strip()
-                if (not pattern or
-                        pattern.startswith('%') or
-                        pattern.startswith('#')):
+                if not pattern or pattern.startswith((
+                        '%', '#', 'LEFTHYPHENMIN', 'RIGHTHYPHENMIN',
+                        'COMPOUNDLEFTHYPHENMIN', 'COMPOUNDRIGHTHYPHENMIN')):
                     continue
 
                 # replace ^^hh with the real character
