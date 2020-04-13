@@ -47,10 +47,15 @@ try:
 except ImportError:
     dictionaries_root = os.path.join(os.path.dirname(__file__), 'dictionaries')
 
-LANGUAGES = dict(
-    (filename[5:-4], os.path.join(dictionaries_root, filename))
-    for filename in os.listdir(dictionaries_root)
-    if filename.endswith('.dic'))
+LANGUAGES = {}
+for filename in sorted(os.listdir(dictionaries_root)):
+    if filename.endswith('.dic'):
+        name = filename[5:-4]
+        full_path = os.path.join(dictionaries_root, filename)
+        LANGUAGES[name] = full_path
+        short_name = name.split('_')[0]
+        if short_name not in LANGUAGES:
+            LANGUAGES[short_name] = full_path
 
 
 def language_fallback(language):
