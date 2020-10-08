@@ -1,0 +1,23 @@
+name: Pyphen's tests
+on: [push]
+
+jobs:
+  tests:
+    name: ${{ matrix.os }} - ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python-version: [3.6, 3.7, 3.8, 3.9, pypy3]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Upgrade pip and setuptools
+        run: python -m pip install --upgrade pip setuptools
+      - name: Install tests's requirements
+        run: pip install pytest flake8 pytest-flake8 coverage pytest-cov coveralls
+      - name: Launch tests
+        run: pytest test.py --flake8 --cov=pyphen
