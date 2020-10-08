@@ -1,10 +1,5 @@
-Pyphen
-======
-
 Pyphen is a pure Python module to hyphenate text using existing Hunspell
 hyphenation dictionaries.
-
-https://github.com/Kozea/Pyphen
 
 This module is a fork of python-hyphenator, written by Wilbert Berendsen.
 
@@ -16,33 +11,21 @@ dictionaries and the libreoffice's repository for more details.
 
 http://cgit.freedesktop.org/libreoffice/dictionaries/tree/
 
-Usage:
+* Free software: GPL 2.0+/LGPL 2.1+/MPL 1.1 tri-license
+* For Python 3.5+, tested on CPython and PyPy
+* Documentation: https://pyphen.org
+* Changelog: https://github.com/Kozea/pyphen/releases
+* Code, issues, tests: https://github.com/Kozea/pyphen
+* Code of conduct: https://www.courtbouillon.org/code-of-conduct
+* Professional support: https://www.courtbouillon.org
+* Donation: https://opencollective.com/courtbouillon
 
->>> import pyphen
->>> pyphen.language_fallback('nl_NL_variant1')
-'nl_NL'
->>> 'nl_NL' in pyphen.LANGUAGES
-True
->>> dic = pyphen.Pyphen(lang='nl_NL')
->>> dic.inserted('lettergrepen')
-'let-ter-gre-pen'
->>> dic.wrap('autobandventieldopje', 11)
-('autoband-', 'ventieldopje')
->>> for pair in dic.iterate('Amsterdam'):
-...     print(pair)
-...
-('Amster', 'dam')
-('Am', 'sterdam')
->>>
+Pyphen has been created and developed by Kozea (https://kozea.fr).
+Professional support, maintenance and community management is provided by
+CourtBouillon (https://www.courtbouillon.org).
 
-Features:
-
-* 100% pure Python with no dependencies
-* a lot of included dictionaries
-* caches dict files and hyphenated words
-* supports nonstandard hyphenation patterns
-
-License:
-
-Pyphen is released under the GPL 2.0+/LGPL 2.1+/MPL 1.1 tri-license.
-See COPYING.GPL, COPYING.LGPL and COPYING.MPL for more details.
+Copyrights are retained by their contributors, no copyright assignment is
+required to contribute to Pyphen. Unless explicitly stated otherwise, any
+contribution intentionally submitted for inclusion is licensed under 
+GPL 2.0+/LGPL 2.1+/MPL 1.1, without any additional terms or conditions. For 
+full authorship information, see the version control history.
