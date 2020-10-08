@@ -30,7 +30,7 @@ setup(
         os.path.dirname(__file__), 'dictionaries', '*.dic')]},
     include_package_data=True,
     author='Guillaume Ayoub',
-    author_email='guillaume.ayoub@kozea.fr',
+    author_email='guillaume@courtbouillon.org',
     url='https://github.com/Kozea/Pyphen',
     description='Pure Python module to hyphenate text',
     zip_safe=False,
