@@ -35,6 +35,6 @@ setup(
     description='Pure Python module to hyphenate text',
     zip_safe=False,
     long_description=open(
-        os.path.join(os.path.dirname(__file__), 'README')).read(),
+        os.path.join(os.path.dirname(__file__), 'README.rst')).read(),
     classifiers=classifiers,
 )

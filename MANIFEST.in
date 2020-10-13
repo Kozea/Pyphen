@@ -1,1 +1,1 @@
-include README COPYING COPYING.GPL COPYING.LGPL COPYING.MPL pyphen/__init__.py pyphen/dictionaries/*.dic
+include README.rst COPYING COPYING.GPL COPYING.LGPL COPYING.MPL pyphen/__init__.py pyphen/dictionaries/*.dic
