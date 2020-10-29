@@ -23,7 +23,7 @@ classifiers = [
 
 setup(
     name='Pyphen',
-    version='0.9.5',
+    version='0.10.0',
     provides=['pyphen'],
     packages=['pyphen'],
     package_data={'pyphen': [os.path.join(
