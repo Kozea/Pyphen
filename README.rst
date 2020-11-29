@@ -12,7 +12,7 @@ dictionaries and the libreoffice's repository for more details.
 http://cgit.freedesktop.org/libreoffice/dictionaries/tree/
 
 * Free software: GPL 2.0+/LGPL 2.1+/MPL 1.1 tri-license
-* For Python 3.5+, tested on CPython and PyPy
+* For Python 3.6+, tested on CPython and PyPy
 * Documentation: https://pyphen.org
 * Changelog: https://github.com/Kozea/pyphen/releases
 * Code, issues, tests: https://github.com/Kozea/pyphen
