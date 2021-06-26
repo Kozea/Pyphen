@@ -1,34 +1,12 @@
-# This file is part of Pyphen
-#
-# Copyright 2013 - Guillaume Ayoub <guillaume.ayoub@kozea.fr>
-#
-# This library is free software: you can redistribute it and/or modify it under
-# the terms of the GNU Lesser General Public License as published by the Free
-# Software Foundation, either version 2.1 of the License, or (at your option)
-# any later version.
-#
-# This library is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-# details.
-#
-# You should have received a copy of the GNU Lesser General Public License
-# along with Pyphen.  If not, see <http://www.gnu.org/licenses/>.
-
 """
 
 Pyphen Tests
 ============
 
-Tests can be launched with:
-
-- Pytest (``py.test test.py``).
-- Nose (``nosetests``).
+Tests can be launched with Pytest.
 
 """
 
-
-from __future__ import unicode_literals
 
 import pyphen
 

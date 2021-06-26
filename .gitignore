@@ -1,4 +1,7 @@
 *.pyc
-__pycache__
-dist
-MANIFEST
+.cache
+/.coverage
+/build
+/dist
+/pytest_cache
+/venv
