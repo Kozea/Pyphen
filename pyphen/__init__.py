@@ -136,7 +136,7 @@ class HyphDict(object):
                     lambda match: chr(int(match.group(1), 16)), pattern)
 
                 # read nonstandard hyphen alternatives
-                if '/' in pattern:
+                if '/' in pattern and '=' in pattern:
                     pattern, alternative = pattern.split('/', 1)
                     factory = AlternativeParser(pattern, alternative)
                 else:
