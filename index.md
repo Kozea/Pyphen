@@ -55,6 +55,8 @@ Included Dictionaries
 The dictionaries included in LibreOffice are distributed with {{ site.title }}:
 
 - Afrikaans
+- Albanian
+- Belarusian
 - Bulgarian
 - Catalan
 - Croatian
@@ -62,6 +64,7 @@ The dictionaries included in LibreOffice are distributed with {{ site.title }}:
 - Danish
 - Dutch
 - English (Great-Britain and United-States)
+- Esperanto
 - Estonian
 - French
 - Galician
@@ -73,6 +76,7 @@ The dictionaries included in LibreOffice are distributed with {{ site.title }}:
 - Italian
 - Lithuanian
 - Latvian
+- Mongolian
 - Norwegian (Bokmål and Nynorsk)
 - Polish
 - Portuguese (Brazil and Portugal)
@@ -114,15 +118,13 @@ Contribute
 ----------
 
 Features, bugs, hacks, documentation, tests, dictionaries? Fork us on
-[GitHub]({{ site.github.repository_url }}), or chat with us on IRC (`##kozea`
-on Freenode).
+[GitHub]({{ site.github.repository_url }}), or chat with us on [Gitter](https://gitter.im/CourtBouillon/community).
 
 
 License
 -------
 
-{{ site.title }} is a friendly fork of the unmaintained
-[python-hyphenator](https://code.google.com/p/python-hyphenator/) module.
+{{ site.title }} is a friendly fork of the unmaintained python-hyphenator module.
 
 {{ site.title }} is released under the GPL 2.0+ ~ LGPL 2.1+ ~ MPL 1.1 tri-license. See
 `COPYING.GPL`, `COPYING.LGPL` and `COPYING.MPL` for more details.
