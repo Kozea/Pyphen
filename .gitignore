@@ -1,7 +1,6 @@
 *.pyc
-.cache
 /.coverage
-/build
+/.pytest_cache
 /dist
-/pytest_cache
 /venv
+/docs/_build

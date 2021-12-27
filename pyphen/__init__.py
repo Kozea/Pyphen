@@ -41,7 +41,9 @@ try:
 except ImportError:
     dictionaries_root = os.path.join(os.path.dirname(__file__), 'dictionaries')
 
+#: Dict of languages including codes as keys and dictionary path as values.
 LANGUAGES = {}
+
 for filename in sorted(os.listdir(dictionaries_root)):
     if filename.endswith('.dic'):
         name = filename[5:-4]
