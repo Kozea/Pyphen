@@ -11,7 +11,7 @@ https://cgit.freedesktop.org/libreoffice/dictionaries/tree/
 
 * Free software: GPL 2.0+/LGPL 2.1+/MPL 1.1 tri-license
 * For Python 3.6+, tested on CPython and PyPy
-* Documentation: https://pyphen.org
+* Documentation: https://doc.courtbouillon.org/pyphen
 * Changelog: https://github.com/Kozea/pyphen/releases
 * Code, issues, tests: https://github.com/Kozea/pyphen
 * Code of conduct: https://www.courtbouillon.org/code-of-conduct
