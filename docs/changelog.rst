@@ -2,6 +2,16 @@ Changelog
 =========
 
 
+Version 0.12.0
+--------------
+
+Released on 2021-12-27.
+
+* Support Python 3.10, drop Python 3.6 support.
+* Add documentation.
+* Update Belarusian dictionary.
+
+
 Version 0.11.0
 --------------
 
