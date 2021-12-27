@@ -23,3 +23,46 @@ Short Example
    >>> dic = pyphen.Pyphen(lang='fr_FR')
    >>> dic.inserted('fromage')
    'fro-mage'
+
+
+Included Dictionaries
+---------------------
+
+The dictionaries included in LibreOffice are distributed with Pyphen:
+
+* Afrikaans
+* Albanian
+* Belarusian
+* Bulgarian
+* Catalan
+* Croatian
+* Czech
+* Danish
+* Dutch
+* English (Great-Britain and United-States)
+* Esperanto
+* Estonian
+* French
+* Galician
+* German (Austria, Germany and Switzerland)
+* Greek
+* Hungarian
+* Icelandic
+* Indonesian
+* Italian
+* Lithuanian
+* Latvian
+* Mongolian
+* Norwegian (Bokmål and Nynorsk)
+* Polish
+* Portuguese (Brazil and Portugal)
+* Romanian
+* Russian
+* Serbian (cyrillic and latin)
+* Slovak
+* Slovenian
+* Spanish
+* Swedish
+* Telugu
+* Ukrainian
+* Zulu
