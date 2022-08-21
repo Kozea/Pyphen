@@ -39,6 +39,8 @@ for filename in sorted(os.listdir(dictionaries_root)):
         if short_name not in LANGUAGES:
             LANGUAGES[short_name] = full_path
 
+LANGUAGES_LOWERCASE = {name.lower(): name for name in LANGUAGES}
+
 
 def language_fallback(language):
     """Get a fallback language available in our dictionaries.
@@ -49,11 +51,11 @@ def language_fallback(language):
     including scripts for languages with multiple regions available.
 
     """
-    parts = language.replace('-', '_').split('_')
+    parts = language.replace('-', '_').lower().split('_')
     while parts:
         language = '_'.join(parts)
-        if language in LANGUAGES:
-            return language
+        if language in LANGUAGES_LOWERCASE:
+            return LANGUAGES_LOWERCASE[language]
         parts.pop()
 
 
