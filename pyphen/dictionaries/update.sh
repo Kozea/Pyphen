@@ -1,10 +1,6 @@
-host='https://cgit.freedesktop.org/'
-
-for folder in `curl -s $host/libreoffice/dictionaries/tree/ | grep 'ls-dir' | cut -d "'" -f 6`; do
-    for file in `curl -s $host$folder | grep 'ls-blob' | grep 'hyph_.*\.dic' | cut -d "'" -f 6`; do
-        wget -N `echo $host$file | sed 's/tree/plain/'` &
-    done
-done
-
+git clone git://anongit.freedesktop.org/libreoffice/dictionaries libreoffice-dictionaries
+cd libreoffice-dictionaries
+git pull
+cd ..
+find libreoffice-dictionaries -name "hyph_*\.dic" | xargs -I '{}' cp '{}' .
 rename -- -Latn _Latn *-Latn.dic
-rename _ANY "" *_ANY.dic
