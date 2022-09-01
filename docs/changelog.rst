@@ -8,7 +8,7 @@ Version 0.13.0
 Released on 2022-09-01.
 
 * Make language parameter case-insensitive.
-* Add Catanal dictionary.
+* Add Catalan dictionary.
 * Update French dictionary.
 * Update script upgrading dictionaries.
 
