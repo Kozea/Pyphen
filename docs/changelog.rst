@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+Version 0.13.1
+--------------
+
+Released on 2022-11-15.
+
+* Update Italian dictionary.
+
+
 Version 0.13.0
 --------------
 

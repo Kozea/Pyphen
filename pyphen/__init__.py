@@ -10,7 +10,7 @@ Pure Python module to hyphenate text, inspired by Ruby's Text::Hyphen.
 import os
 import re
 
-VERSION = __version__ = '0.13.0'
+VERSION = __version__ = '0.13.1'
 
 __all__ = ('Pyphen', 'LANGUAGES', 'language_fallback')
 
