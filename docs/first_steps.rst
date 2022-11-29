@@ -64,5 +64,6 @@ The dictionaries included in LibreOffice are distributed with Pyphen:
 * Spanish
 * Swedish
 * Telugu
+* Thai
 * Ukrainian
 * Zulu

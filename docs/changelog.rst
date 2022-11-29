@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+Version 0.13.2
+--------------
+
+Released on 2022-11-29.
+
+* Add Thai dictionary.
+
+
 Version 0.13.1
 --------------
 
