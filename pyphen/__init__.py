@@ -7,8 +7,10 @@ Pure Python module to hyphenate text, inspired by Ruby's Text::Hyphen.
 
 """
 
-import os
 import re
+import sys
+from importlib import resources
+from pathlib import Path
 
 VERSION = __version__ = '0.13.2'
 
@@ -21,23 +23,28 @@ hdcache = {}
 parse_hex = re.compile(r'\^{2}([0-9a-f]{2})').sub
 parse = re.compile(r'(\d?)(\D?)').findall
 
-try:
-    from pkg_resources import resource_filename
-    dictionaries_root = resource_filename('pyphen', 'dictionaries')
-except ImportError:
-    dictionaries_root = os.path.join(os.path.dirname(__file__), 'dictionaries')
-
-#: Dict of languages including codes as keys and dictionary path as values.
+#: Dict of languages including codes as keys and dictionary Path as values.
 LANGUAGES = {}
 
-for filename in sorted(os.listdir(dictionaries_root)):
-    if filename.endswith('.dic'):
-        name = filename[5:-4]
-        full_path = os.path.join(dictionaries_root, filename)
-        LANGUAGES[name] = full_path
-        short_name = name.split('_')[0]
-        if short_name not in LANGUAGES:
-            LANGUAGES[short_name] = full_path
+if sys.version_info[:2] > (3, 8):
+    dictionaries = resources.files('pyphen.dictionaries').iterdir()
+    for path in sorted(dictionaries):
+        if path.suffix == '.dic':
+            name = path.name[5:-4]
+            LANGUAGES[name] = path
+else:
+    dictionaries_path = Path(resources.path('pyphen', 'dictionaries'))
+    dictionaries = resources.contents('pyphen.dictionaries')
+    for filename in sorted(dictionaries):
+        if filename.endswith('.dic'):
+            name = filename[5:-4]
+            path = dictionaries_path / filename
+            LANGUAGES[name] = path
+
+for name, path in tuple(LANGUAGES.items()):
+    short_name = name.split('_')[0]
+    if short_name not in LANGUAGES:
+        LANGUAGES[short_name] = path
 
 LANGUAGES_LOWERCASE = {name.lower(): name for name in LANGUAGES}
 
@@ -103,53 +110,52 @@ class DataInt(int):
 class HyphDict(object):
     """Hyphenation patterns."""
 
-    def __init__(self, filename):
+    def __init__(self, path):
         """Read a ``hyph_*.dic`` and parse its patterns.
 
-        :param filename: filename of hyph_*.dic to read
+        :param path: Path of hyph_*.dic to read
 
         """
         self.patterns = {}
 
-        with open(filename, 'rb') as stream:
-            # see "man 4 hunspell", iscii-devanagari is not supported by python
-            charset = stream.readline().strip().decode('ascii')
-            if charset.lower() == 'microsoft-cp1251':
-                charset = 'cp1251'
-            for pattern in stream:
-                pattern = pattern.decode(charset).strip()
-                if not pattern or pattern.startswith((
-                        '%', '#', 'LEFTHYPHENMIN', 'RIGHTHYPHENMIN',
-                        'COMPOUNDLEFTHYPHENMIN', 'COMPOUNDRIGHTHYPHENMIN')):
-                    continue
+        # see "man 4 hunspell", iscii-devanagari is not supported by python
+        encoding = path.open('rb').readline().decode()
+        if encoding.lower() == 'microsoft-cp1251':
+            encoding = 'cp1251'
 
-                # replace ^^hh with the real character
-                pattern = parse_hex(
-                    lambda match: chr(int(match.group(1), 16)), pattern)
+        for pattern in path.read_text(encoding).split('\n'):
+            pattern = pattern.strip()
+            if not pattern or pattern.startswith((
+                    '%', '#', 'LEFTHYPHENMIN', 'RIGHTHYPHENMIN',
+                    'COMPOUNDLEFTHYPHENMIN', 'COMPOUNDRIGHTHYPHENMIN')):
+                continue
 
-                # read nonstandard hyphen alternatives
-                if '/' in pattern and '=' in pattern:
-                    pattern, alternative = pattern.split('/', 1)
-                    factory = AlternativeParser(pattern, alternative)
-                else:
-                    factory = int
+            # replace ^^hh with the real character
+            pattern = parse_hex(
+                lambda match: chr(int(match.group(1), 16)), pattern)
 
-                tags, values = zip(*[
-                    (string, factory(i or '0'))
-                    for i, string in parse(pattern)])
+            # read nonstandard hyphen alternatives
+            if '/' in pattern and '=' in pattern:
+                pattern, alternative = pattern.split('/', 1)
+                factory = AlternativeParser(pattern, alternative)
+            else:
+                factory = int
 
-                # if only zeros, skip this pattern
-                if max(values) == 0:
-                    continue
+            tags, values = zip(*[
+                (string, factory(i or '0')) for i, string in parse(pattern)])
 
-                # chop zeros from beginning and end, and store start offset
-                start, end = 0, len(values)
-                while not values[start]:
-                    start += 1
-                while not values[end - 1]:
-                    end -= 1
+            # if only zeros, skip this pattern
+            if max(values) == 0:
+                continue
 
-                self.patterns[''.join(tags)] = start, values[start:end]
+            # chop zeros from beginning and end, and store start offset
+            start, end = 0, len(values)
+            while not values[start]:
+                start += 1
+            while not values[end - 1]:
+                end -= 1
+
+            self.patterns[''.join(tags)] = start, values[start:end]
 
         self.cache = {}
         self.maxlen = max(len(key) for key in self.patterns)
