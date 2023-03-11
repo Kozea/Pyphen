@@ -8,8 +8,8 @@ Pure Python module to hyphenate text, inspired by Ruby's Text::Hyphen.
 """
 
 import re
-import sys
 from importlib import resources
+from pathlib import Path
 
 VERSION = __version__ = '0.13.2'
 
@@ -25,25 +25,19 @@ parse = re.compile(r'(\d?)(\D?)').findall
 #: Dict of languages including codes as keys and dictionary Path as values.
 LANGUAGES = {}
 
-if sys.version_info[:2] > (3, 8):
-    dictionaries = resources.files('pyphen.dictionaries').iterdir()
-    for path in sorted(dictionaries):
-        if path.suffix == '.dic':
-            name = path.name[5:-4]
-            LANGUAGES[name] = path
-else:
-    dictionaries = resources.contents('pyphen.dictionaries')
-    with resources.path('pyphen', 'dictionaries') as dictionaries_path:
-        for filename in sorted(dictionaries):
-            if filename.endswith('.dic'):
-                name = filename[5:-4]
-                path = dictionaries_path / filename
-                LANGUAGES[name] = path
+try:
+    dictionaries = resources.files('pyphen.dictionaries')
+except (AttributeError, TypeError):
+    # AttributeError with Python 3.7 and 3.8, TypeError with Python 3.9
+    dictionaries = Path(__file__).parent / 'dictionaries'
 
-for name, path in tuple(LANGUAGES.items()):
-    short_name = name.split('_')[0]
-    if short_name not in LANGUAGES:
-        LANGUAGES[short_name] = path
+for path in sorted(dictionaries.iterdir()):
+    if path.suffix == '.dic':
+        name = path.name[5:-4]
+        LANGUAGES[name] = path
+        short_name = name.split('_')[0]
+        if short_name not in LANGUAGES:
+            LANGUAGES[short_name] = path
 
 LANGUAGES_LOWERCASE = {name.lower(): name for name in LANGUAGES}
 
