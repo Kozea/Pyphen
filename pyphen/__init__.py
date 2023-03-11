@@ -193,14 +193,14 @@ class HyphDict(object):
             references = [0] * (len(pointed_word) + 1)
 
             for i in range(len(pointed_word) - 1):
-                for j in range(
-                        i + 1, min(i + self.maxlen, len(pointed_word)) + 1):
+                stop = min(i + self.maxlen, len(pointed_word)) + 1
+                for j in range(i + 1, stop):
                     pattern = self.patterns.get(pointed_word[i:j])
-                    if pattern:
-                        offset, values = pattern
-                        slice_ = slice(i + offset, i + offset + len(values))
-                        references[slice_] = map(
-                            max, values, references[slice_])
+                    if not pattern:
+                        continue
+                    offset, values = pattern
+                    slice_ = slice(i + offset, i + offset + len(values))
+                    references[slice_] = map(max, values, references[slice_])
 
             points = [
                 DataInt(i - 1, reference=reference)
@@ -289,7 +289,7 @@ class Pyphen(object):
         given as the second parameter, that defaults to ``'-'``.
 
         """
-        word_list = list(word)
+        letters = list(word)
         for position in reversed(self.positions(word)):
             if position.data:
                 # get the nonstandard hyphenation data
@@ -297,10 +297,10 @@ class Pyphen(object):
                 index += position
                 if word.isupper():
                     change = change.upper()
-                word_list[index:index + cut] = change.replace('=', hyphen)
+                letters[index:index + cut] = change.replace('=', hyphen)
             else:
-                word_list.insert(position, hyphen)
+                letters.insert(position, hyphen)
 
-        return ''.join(word_list)
+        return ''.join(letters)
 
     __call__ = iterate
