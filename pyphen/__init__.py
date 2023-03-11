@@ -33,13 +33,13 @@ if sys.version_info[:2] > (3, 8):
             name = path.name[5:-4]
             LANGUAGES[name] = path
 else:
-    dictionaries_path = Path(resources.path('pyphen', 'dictionaries'))
     dictionaries = resources.contents('pyphen.dictionaries')
-    for filename in sorted(dictionaries):
-        if filename.endswith('.dic'):
-            name = filename[5:-4]
-            path = dictionaries_path / filename
-            LANGUAGES[name] = path
+    with resources.path('pyphen', 'dictionaries') as dictionaries_path:
+        for filename in sorted(dictionaries):
+            if filename.endswith('.dic'):
+                name = filename[5:-4]
+                path = dictionaries_path / filename
+                LANGUAGES[name] = path
 
 for name, path in tuple(LANGUAGES.items()):
     short_name = name.split('_')[0]
