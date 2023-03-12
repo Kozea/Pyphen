@@ -62,7 +62,7 @@ def language_fallback(language):
         parts.pop()
 
 
-class AlternativeParser(object):
+class AlternativeParser:
     """Parser of nonstandard hyphen pattern alternative.
 
     The instance returns a special int with data about the current position in
@@ -103,7 +103,7 @@ class DataInt(int):
         return obj
 
 
-class HyphDict(object):
+class HyphDict:
     """Hyphenation patterns."""
 
     def __init__(self, path):
@@ -130,8 +130,7 @@ class HyphDict(object):
 
             # read nonstandard hyphen alternatives
             if '/' in pattern and '=' in pattern:
-                pattern, alternative = pattern.split('/', 1)
-                factory = AlternativeParser(pattern, alternative)
+                factory = AlternativeParser(*pattern.split('/', 1))
             else:
                 factory = int
 
@@ -196,14 +195,13 @@ class HyphDict(object):
                     slice_ = slice(i + offset, i + offset + len(values))
                     references[slice_] = map(max, values, references[slice_])
 
-            points = [
+            self.cache[word] = points = [
                 DataInt(i - 1, reference=reference)
                 for i, reference in enumerate(references) if reference % 2]
-            self.cache[word] = points
         return points
 
 
-class Pyphen(object):
+class Pyphen:
     """Hyphenation class, with methods to hyphenate strings in various ways."""
 
     def __init__(self, filename=None, lang=None, left=2, right=2, cache=True):
