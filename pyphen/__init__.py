@@ -119,7 +119,7 @@ class HyphDict(object):
         if encoding.lower() == 'microsoft-cp1251':
             encoding = 'cp1251'
 
-        for pattern in path.read_text(encoding).split('\n'):
+        for pattern in path.read_text(encoding).split('\n')[1:]:
             pattern = pattern.strip()
             if not pattern or pattern.startswith(ignored):
                 continue
