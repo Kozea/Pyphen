@@ -21,6 +21,9 @@ hdcache = {}
 # precompile some stuff
 parse_hex = re.compile(r'\^{2}([0-9a-f]{2})').sub
 parse = re.compile(r'(\d?)(\D?)').findall
+ignored = (
+    '%', '#', 'LEFTHYPHENMIN', 'RIGHTHYPHENMIN',
+    'COMPOUNDLEFTHYPHENMIN', 'COMPOUNDRIGHTHYPHENMIN')
 
 #: Dict of languages including codes as keys and dictionary Path as values.
 LANGUAGES = {}
@@ -118,9 +121,7 @@ class HyphDict(object):
 
         for pattern in path.read_text(encoding).split('\n'):
             pattern = pattern.strip()
-            if not pattern or pattern.startswith((
-                    '%', '#', 'LEFTHYPHENMIN', 'RIGHTHYPHENMIN',
-                    'COMPOUNDLEFTHYPHENMIN', 'COMPOUNDRIGHTHYPHENMIN')):
+            if not pattern or pattern.startswith(ignored):
                 continue
 
             # replace ^^hh with the real character
@@ -182,7 +183,7 @@ class HyphDict(object):
         word = word.lower()
         points = self.cache.get(word)
         if points is None:
-            pointed_word = '.%s.' % word
+            pointed_word = f'.{word}.'
             references = [0] * (len(pointed_word) + 1)
 
             for i in range(len(pointed_word) - 1):
