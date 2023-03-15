@@ -130,7 +130,8 @@ class HyphDict:
 
             # read nonstandard hyphen alternatives
             if '/' in pattern and '=' in pattern:
-                factory = AlternativeParser(*pattern.split('/', 1))
+                pattern, alternative = pattern.split('/', 1)
+                factory = AlternativeParser(pattern, alternative)
             else:
                 factory = int
 
