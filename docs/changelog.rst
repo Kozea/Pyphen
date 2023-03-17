@@ -7,7 +7,7 @@ Version 0.14.0
 
 Released on 2023-03-17.
 
-* Store Path objects instead of strings in LANGUAGE.
+* Store Path objects instead of strings in LANGUAGES.
 * Use importlib.resources instead of deprecated pkg_resources.
 
 
