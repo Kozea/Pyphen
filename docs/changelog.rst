@@ -2,6 +2,15 @@ Changelog
 =========
 
 
+Version 0.14.0
+--------------
+
+Released on 2023-03-17.
+
+* Store Path objects instead of strings in LANGUAGE.
+* Use importlib.resources instead of deprecated pkg_resources.
+
+
 Version 0.13.2
 --------------
 
