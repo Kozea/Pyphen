@@ -10,7 +10,7 @@ for more details.
 
 https://cgit.freedesktop.org/libreoffice/dictionaries/tree/
 
-* Free software: GPL 2.0+/LGPL 2.1+/MPL 1.1 tri-license
+* Free software: GPL 2.0+ or LGPL 2.1+ or MPL 1.1 for the code
 * For Python 3.7+, tested on CPython and PyPy
 * Documentation: https://doc.courtbouillon.org/pyphen
 * Changelog: https://github.com/Kozea/pyphen/releases
