@@ -2,7 +2,7 @@ name: doconfly
 on:
   push:
     branches:
-      - master
+      - main
     tags:
       - "*"
 
