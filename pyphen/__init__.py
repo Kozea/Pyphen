@@ -31,7 +31,7 @@ LANGUAGES = {}
 try:
     dictionaries = resources.files('pyphen.dictionaries')
 except (AttributeError, TypeError):
-    # AttributeError with Python 3.7 and 3.8, TypeError with Python 3.9
+    # AttributeError with Python 3.8, TypeError with Python 3.9
     dictionaries = Path(__file__).parent / 'dictionaries'
 
 for path in sorted(dictionaries.iterdir()):
