@@ -2,6 +2,18 @@ Changelog
 =========
 
 
+Version 0.15.0
+--------------
+
+Released on 2024-04-23.
+
+* Support Python 3.12, drop Python 3.7 support.
+* Add READMEs for dictionaries.
+* Add Basque hyphenation dictionary.
+* Update Catalan and Hungarian dictionaries.
+* Use Ruff instead of Flake8 and isort.
+
+
 Version 0.14.0
 --------------
 
