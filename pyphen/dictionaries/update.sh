@@ -1,4 +1,4 @@
-git clone git://anongit.freedesktop.org/libreoffice/dictionaries libreoffice-dictionaries
+git clone https://git.libreoffice.org/dictionaries libreoffice-dictionaries
 cd libreoffice-dictionaries
 git pull
 cd ..

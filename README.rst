@@ -8,7 +8,7 @@ repository and are distributed under GPL, LGPL and/or MPL. Dictionaries are not
 modified in this repository. See the dictionaries and LibreOffice's repository
 for more details.
 
-https://cgit.freedesktop.org/libreoffice/dictionaries/tree/
+https://git.libreoffice.org/dictionaries
 
 * Free software: GPL 2.0+ or LGPL 2.1+ or MPL 1.1 for the code
 * For Python 3.8+, tested on CPython and PyPy
