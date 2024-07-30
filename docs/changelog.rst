@@ -2,6 +2,15 @@ Changelog
 =========
 
 
+Version 0.16.0
+--------------
+
+Released on 2024-07-30.
+
+* Close file when reading encoding
+* Update dictionary repository
+
+
 Version 0.15.0
 --------------
 
