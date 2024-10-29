@@ -2,6 +2,15 @@ Changelog
 =========
 
 
+Version 0.17.0
+--------------
+
+Released on 2024-10-28.
+
+* Support Python 3.13, drop Python 3.8 support.
+* Update Hungarian dictionary.
+
+
 Version 0.16.0
 --------------
 
