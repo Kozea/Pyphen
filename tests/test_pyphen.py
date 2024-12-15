@@ -8,6 +8,8 @@ Tests can be launched with Pytest.
 """
 
 
+from pathlib import Path
+
 import pyphen
 
 
@@ -55,6 +57,20 @@ def test_personal_dict():
     pyphen.LANGUAGES['fr'] = pyphen.LANGUAGES['nl_NL']
     dic = pyphen.Pyphen(lang='fr')
     assert dic.inserted('autobandventieldopje') == 'au-to-band-ven-tiel-dop-je'
+
+
+def test_dict_from_filename():
+    """Test a dict open from filename."""
+    dic_path = Path(__file__).parents[1] / 'pyphen' / 'dictionaries' / 'hyph_fr.dic'
+    dic = pyphen.Pyphen(filename=str(dic_path))
+    assert dic.inserted('bonjour') == 'bon-jour'
+
+
+def test_dict_from_path():
+    """Test a dict open from path."""
+    dic_path = Path(__file__).parents[1] / 'pyphen' / 'dictionaries' / 'hyph_fr.dic'
+    dic = pyphen.Pyphen(filename=dic_path)
+    assert dic.inserted('bonjour') == 'bon-jour'
 
 
 def test_left_right():

@@ -208,20 +208,18 @@ class Pyphen:
     def __init__(self, filename=None, lang=None, left=2, right=2, cache=True):
         """Create an hyphenation instance for given lang or filename.
 
-        :param filename: filename of hyph_*.dic to read
+        :param filename: filename or Path of hyph_*.dic to read
         :param lang: lang of the included dict to use if no filename is given
         :param left: minimum number of characters of the first syllabe
         :param right: minimum number of characters of the last syllabe
         :param cache: if ``True``, use cached copy of the hyphenation patterns
 
         """
-        if not filename:
-            filename = LANGUAGES[language_fallback(lang)]
-        self.left = left
-        self.right = right
-        if not cache or filename not in hdcache:
-            hdcache[filename] = HyphDict(filename)
-        self.hd = hdcache[filename]
+        self.left, self.right = left, right
+        path = Path(filename) if filename else LANGUAGES[language_fallback(lang)]
+        if not cache or path not in hdcache:
+            hdcache[path] = HyphDict(path)
+        self.hd = hdcache[path]
 
     def positions(self, word):
         """Get a list of positions where the word can be hyphenated.
