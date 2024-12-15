@@ -13,7 +13,7 @@ from pathlib import Path
 
 VERSION = __version__ = '0.17.0'
 
-__all__ = ('Pyphen', 'LANGUAGES', 'language_fallback')
+__all__ = ('LANGUAGES', 'Pyphen', 'language_fallback')
 
 # cache of per-file HyphDict objects
 hdcache = {}
