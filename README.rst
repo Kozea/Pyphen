@@ -3,7 +3,7 @@ hyphenation dictionaries.
 
 This module is a fork of python-hyphenator, written by Wilbert Berendsen.
 
-Many dictionaries are included in pyphen, they come from the LibreOffice git
+Many dictionaries are included in Pyphen, they come from the LibreOffice git
 repository and are distributed under GPL, LGPL and/or MPL. Dictionaries are not
 modified in this repository. See the dictionaries and LibreOffice's repository
 for more details.
@@ -26,5 +26,5 @@ CourtBouillon (https://www.courtbouillon.org).
 Copyrights are retained by their contributors, no copyright assignment is
 required to contribute to Pyphen. Unless explicitly stated otherwise, any
 contribution intentionally submitted for inclusion is licensed under
-GPL 2.0+/LGPL 2.1+/MPL 1.1, without any additional terms or conditions. For
+GPL 2.0+/LGPL 2.1+/MPL 1.1, without any additional terms or conditions. For
 full authorship information, see the version control history.
