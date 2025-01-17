@@ -1,7 +1,7 @@
 Common Use Cases
 ================
 
-pyphen has been created for WeasyPrint and many common use cases can thus be
+Pyphen has been created for WeasyPrint and many common use cases can thus be
 found in `its repository`_.
 
 .. _its repository: https://github.com/Kozea/WeasyPrint

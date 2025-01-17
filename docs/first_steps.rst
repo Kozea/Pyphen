@@ -5,9 +5,9 @@ First Steps
 Installation
 ------------
 
-The easiest way to use pyphen is to install it in a Python `virtual
+The easiest way to use Pyphen is to install it in a Python `virtual
 environment`_. When your virtual environment is activated, you can then install
-pyphen with pip_::
+Pyphen with pip_::
 
     pip install pyphen
 

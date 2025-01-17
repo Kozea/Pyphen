@@ -1,12 +1,12 @@
 Contribute
 ==========
 
-You want to add some code to pyphen, launch its tests or improve its
+You want to add some code to Pyphen, launch its tests or improve its
 documentation? Thank you very much! Here are some tips to help you play with
-pyphen in good conditions.
+Pyphen in good conditions.
 
 The first step is to clone the repository, create a virtual environment and
-install pyphen dependencies.
+install Pyphen dependencies.
 
 .. code-block:: shell
 
@@ -25,7 +25,7 @@ You can then launch Python to test your changes.
 Code & Issues
 -------------
 
-If you’ve found a bug in pyphen, it’s time to report it, and to fix it if you
+If you’ve found a bug in Pyphen, it’s time to report it, and to fix it if you
 can!
 
 You can report bugs and feature requests on GitHub_. If you want to add or
