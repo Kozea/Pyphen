@@ -2,6 +2,15 @@ Changelog
 =========
 
 
+Version 0.17.1
+--------------
+
+Released on 2025-01-20.
+
+* Update Mongolian dictionary.
+* Add Assamese, Kannada, Sanskrit, Punjabi, Oriya, Marathi dictionaries.
+
+
 Version 0.17.0
 --------------
 
