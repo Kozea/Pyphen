@@ -5,9 +5,9 @@ First Steps
 Installation
 ------------
 
-The easiest way to use pyphen is to install it in a Python `virtual
+The easiest way to use Pyphen is to install it in a Python `virtual
 environment`_. When your virtual environment is activated, you can then install
-pyphen with pip_::
+Pyphen with pip_::
 
     pip install pyphen
 
@@ -32,6 +32,8 @@ The dictionaries included in LibreOffice are distributed with Pyphen:
 
 * Afrikaans
 * Albanian
+* Assamese
+* Basque
 * Belarusian
 * Bulgarian
 * Catalan
@@ -39,7 +41,7 @@ The dictionaries included in LibreOffice are distributed with Pyphen:
 * Czech
 * Danish
 * Dutch
-* English (Great-Britain and United-States)
+* English (United Kingdom and United States)
 * Esperanto
 * Estonian
 * French
@@ -50,15 +52,20 @@ The dictionaries included in LibreOffice are distributed with Pyphen:
 * Icelandic
 * Indonesian
 * Italian
+* Kannada
 * Lithuanian
 * Latvian
+* Marathi
 * Mongolian
 * Norwegian (Bokmål and Nynorsk)
+* Oriya
 * Polish
 * Portuguese (Brazil and Portugal)
+* Punjabi
 * Romanian
 * Russian
-* Serbian (cyrillic and latin)
+* Sanskrit
+* Serbian (Cyrillic and Latin)
 * Slovak
 * Slovenian
 * Spanish

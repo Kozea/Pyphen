@@ -12,7 +12,7 @@ add new features, fix bugs, and improve documentation.
 .. _donations and sponsorship: https://opencollective.com/courtbouillon
 
 
-Professionnal Support
+Professional Support
 ---------------------
 
 You can improve your experience with CourtBouillon’s tools thanks to our
