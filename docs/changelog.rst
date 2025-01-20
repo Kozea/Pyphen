@@ -2,6 +2,15 @@ Changelog
 =========
 
 
+Version 0.17.2
+--------------
+
+Released on 2025-01-20.
+
+* Fix Oriya dictionary name.
+* Update documentation.
+
+
 Version 0.17.1
 --------------
 
