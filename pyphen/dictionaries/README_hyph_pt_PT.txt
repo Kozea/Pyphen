@@ -11,4 +11,3 @@ This dictionary is based on syllable matching patterns and therefore should
 be usable under other variations of Portuguese.
 
 HYPH pt PT hyph_pt_PT
-

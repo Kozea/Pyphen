@@ -25,4 +25,3 @@ Questo dizionario dovrebbe essere valido anche per altre varianti di italiano
 ===============================================================================
 
 HYPH it IT hyph_it_IT_v2
-

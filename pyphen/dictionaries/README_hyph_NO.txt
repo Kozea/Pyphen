@@ -9,4 +9,3 @@ Author:   The spell-norwegian project, <URL:https://alioth.debian.org/projects/s
 
 HYPH nn NO nn_NO
 HYPH nb NO nb_NO
-

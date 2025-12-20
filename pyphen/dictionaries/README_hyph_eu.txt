@@ -73,4 +73,3 @@
 % the patterns. These and other changes will have to be re-enacted when
 % Basque be established as the current language. See the babel docs if
 % you don't understand this.
-

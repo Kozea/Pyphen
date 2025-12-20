@@ -39,4 +39,3 @@ https://www.openoffice.org/lingucomponent/hyphenator.html als Teil
 der Datei altlinux_Hyph.zip heruntergeladen werden kann.
 Die Original-Trennmuster können hier heruntergeladen werden:
 https://www.ctan.org/tex-archive/language/hyphenation/dehyphn.tex
-
