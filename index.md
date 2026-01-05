@@ -32,7 +32,8 @@ True
 ('Am', 'sterdam')
 {% endhighlight %}
 
-You can also get the documentation of the module objects using:
+You can also read the [online documentation](https://doc.courtbouillon.org/pyphen/), or
+get the documentation of the module objects using:
 
 {% highlight python %}
 >>> import pyphen
@@ -96,14 +97,8 @@ The dictionaries included in LibreOffice are distributed with {{ site.title }}:
 Download
 --------
 
-{% assign releases = site.github.releases | where:"draft",false | sort:"created_at" | reverse %}
-{% assign latest_release = releases[0] %}
-
-Latest version of {{ site.title }} is {{ latest_release.tag_name }}, released on
-{{ latest_release.created_at | date: "%B %-d, %Y" }}.
-
-{{ site.title }} [available on PyPI](http://pypi.python.org/pypi/{{ site.title }}/). To
-install, just type `pip install pyphen` as superuser.
+{{ site.title }} is [available on PyPI](http://pypi.python.org/pypi/{{ site.title }}/).
+To install, just type `pip install pyphen` as superuser.
 
 {{ site.title }} is also packaged for ArchLinux, CentOS, Gentoo, Fedora and Mageia.
 
