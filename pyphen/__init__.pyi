@@ -6,7 +6,7 @@ from typing_extensions import Self
 __all__ = ("LANGUAGES", "Pyphen", "language_fallback")
 LANGUAGES: dict[str, Path]
 
-def language_fallback(language: str) -> str | None: ...
+def language_fallback(language: str) -> str: ...
 
 class AlternativeParser:
     change: str
