@@ -10,6 +10,17 @@ Pure Python module to hyphenate text, inspired by Ruby's Text::Hyphen.
 import re
 from importlib import resources
 from pathlib import Path
+from typing import (
+    Dict,
+    List,
+    Optional,
+    Tuple,
+    Union,
+    Callable,
+    Iterator,
+    Iterable,
+    cast,
+)
 
 VERSION = __version__ = '0.17.2'
 
@@ -26,25 +37,27 @@ ignored = (
     'COMPOUNDLEFTHYPHENMIN', 'COMPOUNDRIGHTHYPHENMIN')
 
 #: Dict of languages including codes as keys and dictionary Path as values.
-LANGUAGES = {}
+LANGUAGES: Dict[str, Path] = {}
 
 try:
-    dictionaries = resources.files('pyphen.dictionaries')
+    dictionaries: resources.abc.Traversable | Path = resources.files(
+        'pyphen.dictionaries'
+    )
 except TypeError:
     dictionaries = Path(__file__).parent / 'dictionaries'
 
-for path in sorted(dictionaries.iterdir()):
-    if path.suffix == '.dic':
+for path in sorted(cast(Iterable[Path], dictionaries.iterdir())):
+    if str(path).endswith('.dic'):
         name = path.name[5:-4]
         LANGUAGES[name] = path
         short_name = name.split('_')[0]
         if short_name not in LANGUAGES:
             LANGUAGES[short_name] = path
 
-LANGUAGES_LOWERCASE = {name.lower(): name for name in LANGUAGES}
+LANGUAGES_LOWERCASE: Dict[str, str] = {name.lower(): name for name in LANGUAGES}
 
 
-def language_fallback(language):
+def language_fallback(language: str) -> Optional[str]:
     """Get a fallback language available in our dictionaries.
 
     http://www.unicode.org/reports/tr35/#Locale_Inheritance
@@ -59,6 +72,7 @@ def language_fallback(language):
         if language in LANGUAGES_LOWERCASE:
             return LANGUAGES_LOWERCASE[language]
         parts.pop()
+    return None
 
 
 class AlternativeParser:
@@ -68,15 +82,16 @@ class AlternativeParser:
     the pattern when called with an odd value.
 
     """
-    def __init__(self, pattern, alternative):
-        alternative = alternative.split(',')
-        self.change = alternative[0]
-        self.index = int(alternative[1])
-        self.cut = int(alternative[2])
+
+    def __init__(self, pattern: str, alternative: str):
+        alternative_parts = alternative.split(',')
+        self.change: str = alternative_parts[0]
+        self.index: int = int(alternative_parts[1])
+        self.cut: int = int(alternative_parts[2])
         if pattern.startswith('.'):
             self.index += 1
 
-    def __call__(self, value):
+    def __call__(self, value) -> Union[int, 'DataInt']:
         self.index -= 1
         value = int(value)
         if value & 1:
@@ -87,7 +102,15 @@ class AlternativeParser:
 
 class DataInt(int):
     """``int`` with some other data can be stuck to in a ``data`` attribute."""
-    def __new__(cls, value, data=None, reference=None):
+
+    data: Optional[Tuple[str, int, int]]
+
+    def __new__(
+        cls,
+        value,
+        data: Optional[Tuple[str, int, int]] = None,
+        reference: Union['DataInt', int, None] = None,
+    ) -> 'DataInt':
         """Create a new ``DataInt``.
 
         Call with ``reference=dataint_object`` to use the data from another
@@ -105,7 +128,7 @@ class DataInt(int):
 class HyphDict:
     """Hyphenation patterns."""
 
-    def __init__(self, path):
+    def __init__(self, path: Path):
         """Read a ``hyph_*.dic`` and parse its patterns.
 
         :param path: Path of hyph_*.dic to read
@@ -131,7 +154,9 @@ class HyphDict:
             # read nonstandard hyphen alternatives
             if '/' in pattern and '=' in pattern:
                 pattern, alternative = pattern.split('/', 1)
-                factory = AlternativeParser(pattern, alternative)
+                factory: Callable[[Union[str, int]], Union[int, DataInt]] = (
+                    AlternativeParser(pattern, alternative)
+                )
             else:
                 factory = int
 
@@ -151,10 +176,10 @@ class HyphDict:
 
             self.patterns[''.join(tags)] = start, values[start:end]
 
-        self.cache = {}
+        self.cache: Dict[str, List[DataInt]] = {}
         self.maxlen = max(len(key) for key in self.patterns)
 
-    def positions(self, word):
+    def positions(self, word: str) -> List[DataInt]:
         """Get a list of positions where the word can be hyphenated.
 
         :param word: unicode string of the word to hyphenate
@@ -205,7 +230,14 @@ class HyphDict:
 class Pyphen:
     """Hyphenation class, with methods to hyphenate strings in various ways."""
 
-    def __init__(self, filename=None, lang=None, left=2, right=2, cache=True):
+    def __init__(
+        self,
+        filename: Optional[Union[Path, str]] = None,
+        lang: Union[str, None] = None,
+        left: int = 2,
+        right: int = 2,
+        cache: bool = True,
+    ):
         """Create an hyphenation instance for given lang or filename.
 
         :param filename: filename or Path of hyph_*.dic to read
@@ -216,12 +248,20 @@ class Pyphen:
 
         """
         self.left, self.right = left, right
-        path = Path(filename) if filename else LANGUAGES[language_fallback(lang)]
+        fallbacked_lang = language_fallback(lang) if lang else None
+        if filename:
+            path = Path(filename)
+        else:
+            if not fallbacked_lang:
+                raise KeyError(
+                    f"No filename given, and language '{lang}' is not available"
+                )
+            path = LANGUAGES[fallbacked_lang]
         if not cache or path not in hdcache:
             hdcache[path] = HyphDict(path)
         self.hd = hdcache[path]
 
-    def positions(self, word):
+    def positions(self, word: str) -> List[DataInt]:
         """Get a list of positions where the word can be hyphenated.
 
         :param word: unicode string of the word to hyphenate
@@ -233,7 +273,7 @@ class Pyphen:
         right = len(word) - self.right
         return [i for i in self.hd.positions(word) if self.left <= i <= right]
 
-    def iterate(self, word):
+    def iterate(self, word: str) -> Iterator[Tuple[str, str]]:
         """Iterate over all hyphenation possibilities, the longest first.
 
         :param word: unicode string of the word to hyphenate
@@ -269,7 +309,7 @@ class Pyphen:
             if len(w1) <= width:
                 return w1 + hyphen, w2
 
-    def inserted(self, word, hyphen='-'):
+    def inserted(self, word: str, hyphen: str = '-') -> str:
         """Get the word as a string with all the possible hyphens inserted.
 
         :param word: unicode string of the word to hyphenate
