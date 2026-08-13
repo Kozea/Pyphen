@@ -2,6 +2,17 @@ Changelog
 =========
 
 
+Version 0.18.0
+--------------
+
+Released on 2026-08-13.
+
+* Update Spanish, Hungarian, Lithuanian and Danish dictionaries.
+* Keep README files updated with dictionaries.
+* Include ``__init__`` method in Pyphen API documentation.
+* Support Python 3.14, drop Python 3.9 support.
+
+
 Version 0.17.2
 --------------
 

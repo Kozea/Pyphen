@@ -11,7 +11,7 @@ import re
 from importlib import resources
 from pathlib import Path
 
-VERSION = __version__ = '0.17.2'
+VERSION = __version__ = '0.18.0'
 
 __all__ = ('LANGUAGES', 'Pyphen', 'language_fallback')
 
