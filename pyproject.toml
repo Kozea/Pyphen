@@ -1,5 +1,5 @@
 [build-system]
-requires = ['flit_core >=3.2,<4']
+requires = ['flit_core >=3.2,<5']
 build-backend = 'flit_core.buildapi'
 
 [project]
@@ -8,7 +8,7 @@ description = 'Pure Python module to hyphenate text'
 keywords = ['hyphenation']
 authors = [{name = 'Guillaume Ayoub', email = 'contact@courtbouillon.org'}]
 maintainers = [{name = 'CourtBouillon', email = 'contact@courtbouillon.org'}]
-requires-python = '>=3.9'
+requires-python = '>=3.10'
 readme = {file = 'README.rst', content-type = 'text/x-rst'}
 license = {file = 'LICENSE'}
 classifiers = [
@@ -19,11 +19,11 @@ classifiers = [
   'License :: OSI Approved :: Mozilla Public License 1.1 (MPL 1.1)',
   'Programming Language :: Python',
   'Programming Language :: Python :: 3',
-  'Programming Language :: Python :: 3.9',
   'Programming Language :: Python :: 3.10',
   'Programming Language :: Python :: 3.11',
   'Programming Language :: Python :: 3.12',
   'Programming Language :: Python :: 3.13',
+  'Programming Language :: Python :: 3.14',
   'Programming Language :: Python :: Implementation :: CPython',
   'Programming Language :: Python :: Implementation :: PyPy',
   'Topic :: Text Processing',
@@ -55,5 +55,8 @@ exclude_lines = ['pragma: no cover', 'def __repr__', 'raise NotImplementedError'
 omit = ['.*']
 
 [tool.ruff.lint]
-select = ['E', 'W', 'F', 'I', 'N', 'RUF']
-ignore = ['RUF001', 'RUF002', 'RUF003']
+select = ['E', 'W', 'F', 'I', 'N', 'RUF', 'T20', 'PIE', 'PT', 'RSE', 'UP', 'Q', 'LOG', 'G']
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = 'single'
+multiline-quotes = 'single'
