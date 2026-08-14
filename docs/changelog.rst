@@ -5,6 +5,14 @@ Changelog
 Version 0.18.0
 --------------
 
+Released on 2026-08-14.
+
+* Include documentation and tests in source tarball
+
+
+Version 0.18.0
+--------------
+
 Released on 2026-08-13.
 
 * Update Spanish, Hungarian, Lithuanian and Danish dictionaries.
