@@ -115,7 +115,7 @@ class HyphDict:
 
         # see "man 4 hunspell", iscii-devanagari is not supported by python
         with path.open('rb') as fd:
-            encoding = fd.readline().decode()
+            encoding = fd.readline().decode().strip()
         if encoding.lower() == 'microsoft-cp1251':
             encoding = 'cp1251'
 

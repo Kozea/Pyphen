@@ -73,6 +73,14 @@ def test_dict_from_path():
     assert dic.inserted('bonjour') == 'bon-jour'
 
 
+def test_dict_with_microsoft_cp1251_encoding(tmp_path):
+    """Test a dict whose declared encoding is not a Python codec name."""
+    dic_path = tmp_path / 'hyph_bg_BG.dic'
+    dic_path.write_bytes('microsoft-cp1251\nч1н\n'.encode('cp1251'))
+    dic = pyphen.Pyphen(filename=dic_path, cache=False)
+    assert dic.inserted('речник') == 'реч-ник'
+
+
 def test_left_right():
     """Test the ``left`` and ``right`` parameters."""
     dic = pyphen.Pyphen(lang='nl_NL')
