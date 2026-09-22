@@ -33,8 +33,8 @@ try:
 except TypeError:
     dictionaries = Path(__file__).parent / 'dictionaries'
 
-for path in sorted(dictionaries.iterdir()):
-    if path.suffix == '.dic':
+for path in sorted(dictionaries.iterdir(), key=lambda path: path.name):
+    if path.name.endswith('.dic'):
         name = path.name[5:-4]
         LANGUAGES[name] = path
         short_name = name.split('_')[0]

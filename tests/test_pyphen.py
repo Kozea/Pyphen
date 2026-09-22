@@ -8,7 +8,10 @@ Tests can be launched with Pytest.
 """
 
 
+import importlib.util
 from pathlib import Path
+from zipfile import Path as ZipPath
+from zipfile import ZipFile
 
 import pyphen
 
@@ -137,3 +140,25 @@ def test_fallback():
     assert pyphen.language_fallback('sr-Cyrl') == 'sr'
     assert pyphen.language_fallback('fr-Latn-FR') == 'fr'
     assert pyphen.language_fallback('en-US_variant1-x') == 'en_US'
+
+
+def test_dictionary_resources_from_zip(tmp_path, monkeypatch):
+    """Discover and read dictionaries whose resources are not filesystem paths."""
+    archive_path = tmp_path / 'dictionaries.zip'
+    with ZipFile(archive_path, 'w') as archive:
+        # Reverse language order to check that the short-name choice is stable.
+        archive.writestr('hyph_en_US.dic', 'UTF-8\nab1cd\n')
+        archive.writestr('hyph_en_GB.dic', 'UTF-8\nab1cd\n')
+        archive.writestr('README.txt', 'Not a hyphenation dictionary')
+
+    with ZipFile(archive_path) as archive:
+        dictionaries = ZipPath(archive)
+        monkeypatch.setattr(pyphen.resources, 'files', lambda _: dictionaries)
+        spec = importlib.util.spec_from_file_location(
+            'pyphen_from_zip', pyphen.__file__)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+
+        assert set(module.LANGUAGES) == {'en', 'en_GB', 'en_US'}
+        assert module.LANGUAGES['en'].name == 'hyph_en_GB.dic'
+        assert module.Pyphen(lang='en').inserted('abcd') == 'ab-cd'
