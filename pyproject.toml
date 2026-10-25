@@ -8,7 +8,7 @@ description = 'Pure Python module to hyphenate text'
 keywords = ['hyphenation']
 authors = [{name = 'Guillaume Ayoub', email = 'contact@courtbouillon.org'}]
 maintainers = [{name = 'CourtBouillon', email = 'contact@courtbouillon.org'}]
-requires-python = '>=3.10'
+requires-python = '>=3.11'
 readme = {file = 'README.rst', content-type = 'text/x-rst'}
 license = 'GPL-2.0-or-later OR LGPL-2.1-or-later OR MPL-1.1'
 license-files = ['LICENSE']
@@ -17,11 +17,11 @@ classifiers = [
   'Intended Audience :: Developers',
   'Programming Language :: Python',
   'Programming Language :: Python :: 3',
-  'Programming Language :: Python :: 3.10',
   'Programming Language :: Python :: 3.11',
   'Programming Language :: Python :: 3.12',
   'Programming Language :: Python :: 3.13',
   'Programming Language :: Python :: 3.14',
+  'Programming Language :: Python :: 3.15',
   'Programming Language :: Python :: Implementation :: CPython',
   'Programming Language :: Python :: Implementation :: PyPy',
   'Topic :: Text Processing',
