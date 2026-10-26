@@ -9,5 +9,7 @@ API Reference
 
 .. autofunction:: language_fallback
 
+.. autofunction:: register
+
 .. autodata:: LANGUAGES
    :annotation:

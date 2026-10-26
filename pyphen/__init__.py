@@ -13,7 +13,7 @@ from pathlib import Path
 
 VERSION = __version__ = '0.18.1'
 
-__all__ = ('LANGUAGES', 'Pyphen', 'language_fallback')
+__all__ = ('LANGUAGES', 'Pyphen', 'language_fallback', 'register')
 
 # cache of per-file HyphDict objects
 hdcache = {}
@@ -42,6 +42,28 @@ for path in sorted(dictionaries.iterdir()):
             LANGUAGES[short_name] = path
 
 LANGUAGES_LOWERCASE = {name.lower(): name for name in LANGUAGES}
+
+
+def register(language, filename):
+    """Register a custom hyphenation dictionary for a language.
+
+    :param language: nonempty language code, such as ``'xx'`` or ``'xx_XX'``
+    :param filename: filename or Path of the dictionary to use
+
+    Language codes use the same case-insensitive lookup and hyphen/underscore
+    normalization as :func:`language_fallback`. An existing registration for
+    the same code is replaced. Relative paths are resolved at registration
+    time; dictionaries are read when a :class:`Pyphen` instance is created.
+    Existing instances keep their dictionaries.
+
+    """
+    if not language:
+        raise ValueError('Language code must not be empty')
+    language = language.replace('-', '_')
+    language = LANGUAGES_LOWERCASE.get(language.lower(), language)
+    path = Path(filename).resolve()
+    LANGUAGES[language] = path
+    LANGUAGES_LOWERCASE[language.lower()] = language
 
 
 def language_fallback(language):
