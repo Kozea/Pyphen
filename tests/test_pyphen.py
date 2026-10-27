@@ -137,3 +137,16 @@ def test_fallback():
     assert pyphen.language_fallback('sr-Cyrl') == 'sr'
     assert pyphen.language_fallback('fr-Latn-FR') == 'fr'
     assert pyphen.language_fallback('en-US_variant1-x') == 'en_US'
+
+
+def test_register(tmp_path):
+    """Test dictionary registration."""
+    path = tmp_path / 'hyph_custom.dic'
+    path.write_text('UTF-8\nhyp1hen')
+    try:
+        pyphen.LANGUAGES['en_XX'] = path
+        assert pyphen.Pyphen(lang='en_XX').inserted('hyphen') == 'hyp-hen'
+        assert pyphen.Pyphen(lang='EN_XX-test').inserted('hyphen') == 'hyp-hen'
+        assert pyphen.Pyphen(lang='en').inserted('hyphen') == 'hy-phen'
+    finally:
+        pyphen.LANGUAGES.pop('en_XX', None)

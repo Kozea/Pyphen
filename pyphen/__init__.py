@@ -41,8 +41,6 @@ for path in sorted(dictionaries.iterdir()):
         if short_name not in LANGUAGES:
             LANGUAGES[short_name] = path
 
-LANGUAGES_LOWERCASE = {name.lower(): name for name in LANGUAGES}
-
 
 def language_fallback(language):
     """Get a fallback language available in our dictionaries.
@@ -53,11 +51,12 @@ def language_fallback(language):
     including scripts for languages with multiple regions available.
 
     """
+    languages_lowercase = {name.lower(): name for name in LANGUAGES}
     parts = language.replace('-', '_').lower().split('_')
     while parts:
         language = '_'.join(parts)
-        if language in LANGUAGES_LOWERCASE:
-            return LANGUAGES_LOWERCASE[language]
+        if language in languages_lowercase:
+            return languages_lowercase[language]
         parts.pop()
 
 

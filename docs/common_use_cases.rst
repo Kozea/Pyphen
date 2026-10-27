@@ -24,3 +24,22 @@ found in `its repository`_.
    ...
    ('Amster', 'dam')
    ('Am', 'sterdam')
+
+
+Registering a Custom Dictionary
+--------------------------------
+
+Applications can register their own Hunspell hyphenation dictionaries before
+creating hyphenation instances:
+
+.. code-block:: python
+
+   from pathlib import Path
+   import pyphen
+
+   pyphen.LANGUAGES['xx'] = Path('/path/to/hyph_xx.dic')
+   dictionary = pyphen.Pyphen(lang='xx')
+
+Normal language fallback applies: registering ``xx`` also makes it available
+for a request such as ``xx_YY``. Registering a specific regional code replaces
+only that code; its parent language and other regions remain unchanged.
