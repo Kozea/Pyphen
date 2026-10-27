@@ -13,7 +13,7 @@ from pathlib import Path
 
 VERSION = __version__ = '0.18.1'
 
-__all__ = ('LANGUAGES', 'Pyphen', 'language_fallback', 'register')
+__all__ = ('LANGUAGES', 'Pyphen', 'language_fallback')
 
 # cache of per-file HyphDict objects
 hdcache = {}
@@ -41,30 +41,6 @@ for path in sorted(dictionaries.iterdir()):
         if short_name not in LANGUAGES:
             LANGUAGES[short_name] = path
 
-LANGUAGES_LOWERCASE = {name.lower(): name for name in LANGUAGES}
-
-
-def register(language, filename):
-    """Register a custom hyphenation dictionary for a language.
-
-    :param language: nonempty language code, such as ``'xx'`` or ``'xx_XX'``
-    :param filename: filename or Path of the dictionary to use
-
-    Language codes use the same case-insensitive lookup and hyphen/underscore
-    normalization as :func:`language_fallback`. An existing registration for
-    the same code is replaced. Relative paths are resolved at registration
-    time; dictionaries are read when a :class:`Pyphen` instance is created.
-    Existing instances keep their dictionaries.
-
-    """
-    if not language:
-        raise ValueError('Language code must not be empty')
-    language = language.replace('-', '_')
-    language = LANGUAGES_LOWERCASE.get(language.lower(), language)
-    path = Path(filename).resolve()
-    LANGUAGES[language] = path
-    LANGUAGES_LOWERCASE[language.lower()] = language
-
 
 def language_fallback(language):
     """Get a fallback language available in our dictionaries.
@@ -75,11 +51,12 @@ def language_fallback(language):
     including scripts for languages with multiple regions available.
 
     """
+    languages_lowercase = {name.lower(): name for name in LANGUAGES}
     parts = language.replace('-', '_').lower().split('_')
     while parts:
         language = '_'.join(parts)
-        if language in LANGUAGES_LOWERCASE:
-            return LANGUAGES_LOWERCASE[language]
+        if language in languages_lowercase:
+            return languages_lowercase[language]
         parts.pop()
 
 

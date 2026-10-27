@@ -2,12 +2,6 @@ Changelog
 =========
 
 
-Unreleased
-----------
-
-* Add ``register()`` to register application-provided hyphenation dictionaries.
-
-
 Version 0.18.1
 --------------
 
