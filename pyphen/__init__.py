@@ -226,11 +226,38 @@ class Pyphen:
         :param word: unicode string of the word to hyphenate
 
         See also ``HyphDict.positions``. The points that are too far to the
-        left or right are removed.
+        left or right are removed. Positions refer to the original word, even
+        when lowercasing changes its length. Points or replacement boundaries
+        inside a character's lowercase expansion are omitted.
 
         """
+        points = self.hd.positions(word)
+        if len(word.lower()) != len(word):
+            # The dictionary uses lowercase offsets. Only boundaries between
+            # original characters can be used to split or replace the input.
+            boundaries = {0: 0}
+            offset = 0
+            for index, character in enumerate(word, 1):
+                offset += len(character.lower())
+                boundaries[offset] = index
+            translated = []
+            for point in points:
+                if point not in boundaries:
+                    continue
+                position = boundaries[point]
+                data = point.data
+                if data:
+                    change, index, cut = data
+                    start, end = point + index, point + index + cut
+                    if start not in boundaries or end not in boundaries:
+                        continue
+                    data = (
+                        change, boundaries[start] - position,
+                        boundaries[end] - boundaries[start])
+                translated.append(DataInt(position, data))
+            points = translated
         right = len(word) - self.right
-        return [i for i in self.hd.positions(word) if self.left <= i <= right]
+        return [i for i in points if self.left <= i <= right]
 
     def iterate(self, word):
         """Iterate over all hyphenation possibilities, the longest first.
