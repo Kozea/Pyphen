@@ -215,7 +215,13 @@ class Pyphen:
 
         """
         self.left, self.right = left, right
-        path = Path(filename) if filename else LANGUAGES[language_fallback(lang)]
+        if filename:
+            path = Path(filename)
+        else:
+            language = language_fallback(lang) if lang else None
+            if language is None:
+                raise KeyError(f'No hyphenation dictionary for language {lang!r}')
+            path = LANGUAGES[language]
         if not cache or path not in hdcache:
             hdcache[path] = HyphDict(path)
         self.hd = hdcache[path]

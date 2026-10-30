@@ -10,6 +10,8 @@ Tests can be launched with Pytest.
 
 from pathlib import Path
 
+import pytest
+
 import pyphen
 
 
@@ -48,6 +50,13 @@ def test_missing_dict():
         pass
     else:  # pragma: no cover
         raise Exception('Importing a missing dict must raise a KeyError')
+
+
+@pytest.mark.parametrize('lang', ['mi_SS', None])
+def test_missing_dict_message(lang):
+    """Test the error message of a missing dict."""
+    with pytest.raises(KeyError, match=repr(lang)):
+        pyphen.Pyphen(lang=lang)
 
 
 def test_personal_dict():
